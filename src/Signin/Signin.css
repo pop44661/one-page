@@ -1,0 +1,10 @@
+.dropdown-menu-end {
+    right: 0;
+    left: auto; /* 保持靠右顯示 */
+    max-width: 100vw; /* 確保不會超過視窗寬度 */
+}
+
+.dropdown-menu-width{
+    min-width: 300px;
+}
+

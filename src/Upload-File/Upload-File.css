@@ -1,0 +1,29 @@
+.drag-drop-area {
+    border: 2px dashed #ccc;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.drag-drop-area p {
+margin: 0;
+}
+
+.drag-drop-area:hover {
+background-color: #f2f2f2;
+}
+
+.drag-over {
+background-color: #f2f2f2;
+}
+
+.d{
+    background-color: #0d6efd;
+    color: #ffffff;
+}
+
+.f{
+    background-color: #ffffff;
+    color: #0d6efd;
+}
+  
