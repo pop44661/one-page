@@ -230,41 +230,80 @@ const UploadFile = (props) => {
         uploadOdTesting(show.files.value,url,extraParametersMap);
     }
     
-    const uploadOdTesting = (files,url,extraParams) => {
+    // const uploadOdTesting = (files,url,extraParams) => {
+    //     const formData = new FormData();
+    //     formData.append('file', files[0]);
+    //     for (let index = 0; index < files.length; index++) {
+    //       const element = files[index];
+    //       formData.append('file-' + index, element);
+    //     }
+  
+    //     extraParams.forEach((value, key) => {
+    //       formData.append(key, value);
+    //     });
+  
+    //     axios.post(url,formData,{
+    //       headers: {
+    //         'Access-Control-Allow-Origin': '*',
+    //       },
+    //       responseType: 'text',
+    //       reportProgress: true,
+    //       observe: 'events',
+    //     })
+    //     .then(
+    //         (response) => {
+    //         }
+    //     )
+    //     .catch((error) => {
+    //         if (error.response) {
+    //           console.log(error.response);
+    //           console.log("server responded");
+    //         } else if (error.request) {
+    //           console.log("network error");
+    //         } else {
+    //           console.log(error);
+    //         }
+    //     });
+    //   }
+    const uploadOdTesting = (files, url, extraParams) => {
         const formData = new FormData();
-        formData.append('file', files[0]);
+        
+        // 添加多個文件
         for (let index = 0; index < files.length; index++) {
           const element = files[index];
-          formData.append('file-' + index, element);
+          formData.append('file-' + index, element); // 確保每個文件都被正確命名
         }
-  
+      
+        // 添加額外的參數
         extraParams.forEach((value, key) => {
           formData.append(key, value);
         });
-  
-        axios.post(url,formData,{
+      
+        // 使用 axios 上傳文件
+        axios.post(url, formData, {
           headers: {
-            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'multipart/form-data', // 確保 Content-Type 為 multipart/form-data
+            'Access-Control-Allow-Origin': '*', // CORS 配置
           },
           responseType: 'text',
-          reportProgress: true,
-          observe: 'events',
         })
-        .then(
-            (response) => {
-            }
-        )
-        .catch((error) => {
-            if (error.response) {
-              console.log(error.response);
-              console.log("server responded");
-            } else if (error.request) {
-              console.log("network error");
-            } else {
-              console.log(error);
-            }
+        .then(response => {
+          console.log("Upload successful:", response);
+          setuploadSuccess(true); // 更新上傳成功狀態
+          setuploading(false);    // 停止上傳狀態
+        })
+        .catch(error => {
+          setuploading(false); // 停止上傳狀態
+          if (error.response) {
+            console.log("Server responded with an error:", error.response);
+          } else if (error.request) {
+            console.log("No response received from server. Network error:", error.request);
+          } else {
+            console.log("Error in request setup:", error.message);
+          }
         });
-      }
+    };
+    
 
     let html1 = show.showingPageList.value.map((list) => 
         <li
@@ -279,14 +318,24 @@ const UploadFile = (props) => {
         </li>
     )
 
+    // let html2 = show.fileInfoList.value.map((list) => 
+    //     <tr>
+    //         <th scope="row">{ list.index }</th>
+    //         <td>{ list.name }</td>
+    //         <td>{typeof(list.size) == 'undefined' ? list.size : list.size.toFixed(3)}</td>
+    //         <td>{ list.type }</td>
+    //     </tr>
+    // )
     let html2 = show.fileInfoList.value.map((list) => 
-        <tr>
-            <th scope="row">{ list.index }</th>
-            <td>{ list.name }</td>
-            <td>{typeof(list.size) == 'undefined' ? list.size : list.size.toFixed(3)}</td>
-            <td>{ list.type }</td>
+        <tr key={list.index}>
+            <th scope="row">{list.index}</th>
+            <td>{list.name}</td>
+            <td>{typeof(list.size) === 'undefined' ? list.size : list.size.toFixed(3)}</td>
+            <td>{list.type}</td>
         </tr>
-    )
+    );
+    
+    
 
     let html3 = extraParameters.map((list) => 
         <div>
