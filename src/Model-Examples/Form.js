@@ -445,7 +445,7 @@ const From = () => {
             parametersForm.iouThreshold,
             parametersForm.resizeImageSize
           );
-        } else if (this.model === 'yolov8-training') {
+        } else if (model === 'yolov8-training') {
           yolo8Train(
             parametersForm.namesOfClasses,
             parametersForm.yoloModel,
@@ -588,8 +588,8 @@ const From = () => {
           console.error('fk the world');
         }
       }
-      catch{
-        
+      catch (error) {
+        console.error("An error occurred in runCb: ", error);
       };
       
     }
@@ -952,45 +952,44 @@ const From = () => {
 
     function loraTraining(
       idPrompt,
-      Resolution,
+      resolution, // 改為小寫以保持一致
       maxTrainSteps,
-      checkpointingSteps,
+      checkpointingSteps
     ) {
       const data = JSON.stringify({
         id_prompt: idPrompt,
-        resolution: Resolution,
+        resolution: resolution, // 使用小寫
         max_train_steps: maxTrainSteps,
         checkpointing_steps: checkpointingSteps,
       });
+      console.log(idPrompt);
       console.log(data);
-      axios.post(ModelExamplesService.LORA_TRAIN,data,{
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'content-type': 'application/json',
-            },
-            responseType: 'text',
-            reportProgress: true,
-            observe: 'events',
+      axios
+        .post(ModelExamplesService.LORA_TRAIN, data, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'content-type': 'application/json',
+          },
+          responseType: 'text',
+          reportProgress: true,
+          observe: 'events',
         })
-        .then(
-            (response) => {
-                try{
-                    alert('task complete');
-                }
-                catch{
-                    
-                }
-            }
-        )
+        .then((response) => {
+          try {
+            alert('task complete');
+          } catch (error) {
+            console.error('An error occurred in alert: ', error);
+          }
+        })
         .catch((error) => {
-            if (error.response) {
-              console.log(error.response);
-              console.log("server responded");
-            } else if (error.request) {
-              console.log("network error");
-            } else {
-              console.log(error);
-            }
+          if (error.response) {
+            console.log(error.response);
+            console.log('server responded');
+          } else if (error.request) {
+            console.log('network error');
+          } else {
+            console.log(error);
+          }
         });
     }
 
