@@ -743,15 +743,15 @@ const Reference = () => {
 
     useEffect(()=>{
         let h=''
-        if(Params.name!=undefined){
+        if(Params.name!==undefined){
             h+=Params.name
         }
-        if(Params.value!=undefined){
+        if(Params.value!==undefined){
             h+='.'+Params.value
         }
         setclaim(h)
         let a=[]
-        if(Params.name!=undefined&&Params.value!=undefined){
+        if(Params.name!==undefined&&Params.value!==undefined){
           for (const [key, value] of Object.entries(apicontent[Params.name][Params.value].request)) {
             a.push(value)
           }
@@ -762,7 +762,7 @@ const Reference = () => {
     const handlepagestatue= (e,list)=>{
         let p =[]
         for (const element of pagelist) {
-            if(element.name==list.name){
+            if(element.name===list.name){
                 p.push({
                     name:list.name,
                     value:list.value,
@@ -817,7 +817,7 @@ const Reference = () => {
     
     const handlejson = (name,value) => {
         let json={}
-        if(Params.name!=undefined && Params.value!=undefined){
+        if(Params.name!==undefined && Params.value!==undefined){
             for (const [key, value] of Object.entries(apicontent[Params.name][Params.value][name])) {
                 json[value.key]=value.example
             }
@@ -834,7 +834,7 @@ const Reference = () => {
 
     const handletable = (name) => {
         let l=[]
-        if(Params.name!=undefined && Params.value!=undefined){
+        if(Params.name!==undefined && Params.value!==undefined){
             for (const [key, value] of Object.entries(apicontent[Params.name][Params.value][name])) {
                 l.push(`${value.key}`)
             }
@@ -854,7 +854,7 @@ const Reference = () => {
     const handletbody = (value) =>{
         let number = tag.indexOf(value)
         let h=<></>
-        if(Params.name!=undefined && Params.value!=undefined){
+        if(Params.name!==undefined && Params.value!==undefined){
             switch (number){
                 case 0:
                     h=<tr>{handledescription(value)}</tr>;
@@ -885,7 +885,7 @@ const Reference = () => {
     const handlespyid = (value) =>{
         let h=<></>;
         for(const element of spy){
-            if(element == value){
+            if(element === value){
                 h=<div><div class='pt-5 pb-4'id={`${value}`}></div><div>{value}</div></div>
                 return h
             }
@@ -937,7 +937,7 @@ const Reference = () => {
     const changeInputBox = (e) =>{
       let a=[]
       for(const element of inputFrom){
-        if(element.key==e.target.name){
+        if(element.key===e.target.name){
           let b ={
             example:e.target.value,
             key:element.key,
@@ -976,7 +976,7 @@ const Reference = () => {
             
             let a=[]
             for(const element of inputFrom){
-                if(element.key==event.target.name){
+                if(element.key===event.target.name){
                 let b ={
                     example:object,
                     key:element.key,
@@ -996,7 +996,7 @@ const Reference = () => {
     const handleinputtype = (value) =>{
         let h=<></>
         
-        if(value.type=='file'){
+        if(value.type==='file'){
             h=<div class="mb-3">
                 <label class="form-label">{value.key}</label>
                 <input
@@ -1009,7 +1009,7 @@ const Reference = () => {
                 />
             </div>
         }
-        else if(value.type=='json'){
+        else if(value.type==='json'){
             h=<div class="mb-3">
                 <label class="form-label">{value.key}</label>
                 <textarea
@@ -1023,7 +1023,7 @@ const Reference = () => {
                 />
             </div>
         }
-        else if(value.key=='token'){
+        else if(value.key==='token'){
             h=<div class="mb-3">
                 <label class="form-label">{value.key}</label>
                 <textarea
@@ -1056,7 +1056,7 @@ const Reference = () => {
     }
 
     let html4 = <></>;
-    if(Params.name!=undefined && Params.value!=undefined){
+    if(Params.name!==undefined && Params.value!==undefined){
 
       html4 = inputFrom.map((list) =>
         handleinputtype(list)
@@ -1151,7 +1151,7 @@ const Reference = () => {
                 
                 
 
-                {Params.value!=undefined ?
+                {Params.value!==undefined ?
                     <div class="main1">
                         <div class="main2">
                             <div class="main3">
@@ -1173,7 +1173,7 @@ const Reference = () => {
                 }
 
                 <div style={{'width':'fit-content'}}>
-                  {Params.value!=undefined ?
+                  {Params.value!==undefined ?
                       <div class='spy'>
                           <div style={{'padding':'10px','border-left': 'thick double #32a1ce'}}>
                               <div class='fw-bold' style={{'font-size': '16px'}}>On this page</div>
