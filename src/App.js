@@ -37,7 +37,7 @@ function AppDev() {
   const [isReference,setisReference] = useState(false); 
   useEffect(()=>{
     let l = location.pathname.split('/')
-    if(l[1]=='reference'){
+    if(l[1]==='reference'){
       setisReference(true)
     }
     else{

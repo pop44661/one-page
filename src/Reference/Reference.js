@@ -16,11 +16,13 @@ class Pagelist {
     name = '';
     value = [];
     statue = false;
+    type = '';
   
-    constructor(name,value, statue) {
+    constructor(name,value, statue,type) {
       this.name = name;
       this.value = value;
       this.statue = statue;
+      this.type = type;
     }
 }
 
@@ -63,10 +65,8 @@ class Content {
 
 const Reference = () => {
     
-    const [isDropDownMenu, setisDropDownMenu] = useState(true);
     const [isMouseEnter, setisMouseEnter] = useState(false);
     const handleMouseEnterLeave = () => {
-        console.log(isMouseClick)
         if(!isMouseClick){
             setisMouseEnter(!isMouseEnter)
         }
@@ -80,41 +80,96 @@ const Reference = () => {
 
     const [pagelist, setpagelist] = useState([
         new Pagelist(
-            'auth',
-            ['signup','signin','listuser','modifyuser','deleteuser'],
-            true
+            'Rest Api',
+            [
+                new Pagelist(
+                    'auth',
+                    [
+                        new Pagelist('signup',[],true,'link'),
+                        new Pagelist('signin',[],false,'link'),
+                        new Pagelist('listuser',[],false,'link'),
+                        new Pagelist('modifyuser',[],false,'link'),
+                        new Pagelist('deleteuser',[],false,'link')
+                    ],
+                    true,
+                    'scroll'
+                ),
+                new Pagelist(
+                    'project',
+                    [
+                        new Pagelist('createproject',[],false,'link'),
+                        new Pagelist('deleteproject',[],false,'link'),
+                        new Pagelist('getsingleproject',[],false,'link'),
+                        new Pagelist('listproject',[],false,'link'),
+                        new Pagelist('listallproject',[],false,'link')
+                    ],
+                    false,
+                    'scroll'
+                ),
+                new Pagelist(
+                    'image',
+                    [
+                        new Pagelist('deleteimage',[],false,'link'),
+                        new Pagelist('uploadimage',[],false,'link'),
+                        new Pagelist('feedbackinformation',[],false,'link')
+                    ],
+                    false,
+                    'scroll'
+                ),
+                new Pagelist(
+                    'requierment',
+                    [
+                        new Pagelist('uploadrequirement',[],false,'link'),
+                        new Pagelist('getrequirement',[],false,'link')
+                    ],
+                    false,
+                    'scroll'
+                ),
+                new Pagelist(
+                    'model',
+                    [
+                        new Pagelist('deletemodel',[],false,'link'),
+                        new Pagelist('downloadmodel',[],false,'link'),
+                        new Pagelist('uploadmodel',[],false,'link')
+                    ],
+                    false,
+                    'scroll'
+                ),
+                new Pagelist(
+                    'sdprocess',
+                    [
+                        new Pagelist('txt2img',[],false,'link'),
+                        new Pagelist('getsdimange',[],false,'link'),
+                        new Pagelist('listsdmodel',[],false,'link'),
+                        new Pagelist('modifysdmodel',[],false,'link')
+                    ],
+                    false,
+                    'scroll'
+                ),
+                new Pagelist(
+                    'ec2context',
+                    [
+                        new Pagelist('deployec2',[],false,'link'),
+                        new Pagelist('startec2',[],false,'link'),
+                        new Pagelist('stopec2',[],false,'link'),
+                        new Pagelist('deleteec2',[],false,'link')
+                    ],
+                    false,
+                    'scroll'
+                )
+            ],
+            true,
+            'scroll'
         ),
         new Pagelist(
-            'project',
-            ['createproject','deleteproject','getsingleproject','listproject','listallproject'],
-            false
-        ),
-        new Pagelist(
-            'image',
-            ['deleteimage','uploadimage','feedbackinformation'],
-            false
-        ),
-        new Pagelist(
-            'requierment',
-            ['uploadrequirement','getrequirement'],
-            false
-        ),
-        new Pagelist(
-            'model',
-            ['deletemodel','downloadmodel','uploadmodel'],
-            false
-        ),
-        new Pagelist(
-            'sdprocess',
-            ['txt2img','getsdimange','listsdmodel','modifysdmodel'],
-            false
-        ),
-        new Pagelist(
-            'ec2context',
-            ['deployec2','startec2','stopec2','deleteec2'],
-            false
+            'Client Libraries',
+            [
+                new Pagelist('overview',[],false,'link')
+            ],
+            false,
+            'scroll'
         )
-    ]);
+        ]);
 
     const domain='http://bev2loadbalancer-61644974.us-east-1.elb.amazonaws.com'
     const apicontent ={
@@ -397,7 +452,7 @@ const Reference = () => {
                     ),
                     username:new Newtype1('115','username','string','userid'),
                     projectname:new Newtype1('testing project','projectname','string','Project name'),
-                    type:new Newtype1('"feedback"','type','string','Image upload type,tpye:""為一般圖片上傳,type:"feedback"為上傳feedback圖片'),
+                    type:new Newtype1('feedback','type','string','Image upload type,tpye:""為一般圖片上傳,type:"feedback"為上傳feedback圖片'),
                     image:new Newtype1('file','image','file','Image actual file')
                 },
                 {
@@ -734,15 +789,90 @@ const Reference = () => {
         }
     }
 
-    const tag = [['Description'],['HTTP request'],['Request body'],['Key','Value_type','Value'],['Response'],['Key','Value_type','Value']];
-    const spy = ['Description','HTTP request','Request body','Response'];
+    const tag = {
+        rest:[['Description'],['HTTP request'],['Request body'],['Key','Value_type','Value'],['Response'],['Key','Value_type','Value']],
+        client:[[''],['Install the client library'],['Set up authentication'],['Use the client library'],['Additional resources']]
+    };
+    const [spy,setspy] = useState({
+        rest:[
+            {
+                name:'Description',
+                statue:false
+            },
+            {
+                name:'HTTP request',
+                statue:false
+            },
+            {
+                name:'Request body',
+                statue:false
+            },
+            {
+                name:'Response',
+                statue:false
+            }],
+        client:[
+            {
+                name:'Install the client library',
+                statue:false
+            },
+            {
+                name:'Set up authentication',
+                statue:false
+            },
+            {
+                name:'Use the client library',
+                statue:false
+            },
+            {
+                name:'Additional resources',
+                statue:false
+            }]
+        });
 
     const Params = useParams();
     const [claim,setclaim]=useState('')
     const [inputFrom,setinputFrom]=useState([])
+    const [overviewbtn,setoverviewbtn]=useState({
+        c:true,n:false,p:false      
+    });
+
+    const onScroll = () => {
+        let w_y=window.pageYOffset
+        let s={...spy}
+        console.log(Params.tag)
+        if(document.getElementById(s[Params.tag][0].name)!==null){
+            
+            let c;
+            for(let i=0;i<s[Params.tag].length;i++){
+                let y =document.getElementById(s[Params.tag][i].name).offsetTop
+                if(w_y >y){
+                    c=i
+                }
+            }
+            for(let j=0;j<s[Params.tag].length;j++){
+                if(c===j){
+                    s[Params.tag][j].statue=true
+                }
+                else{
+                    s[Params.tag][j].statue=false
+                }
+            }
+            setspy(s)
+        }
+        
+    }
 
     useEffect(()=>{
         let h=''
+        if(Params.tag!==undefined){
+            if(Params.tag==='rest'){
+                h+='Api: '
+            }
+            else if(Params.tag==='client'){
+                h+='Library: '
+            }
+        }
         if(Params.name!==undefined){
             h+=Params.name
         }
@@ -753,64 +883,143 @@ const Reference = () => {
         let a=[]
         if(Params.name!==undefined&&Params.value!==undefined){
           for (const [key, value] of Object.entries(apicontent[Params.name][Params.value].request)) {
-            a.push(value)
+            let v = value
+            v.example=''
+            a.push(v)
           }
           setinputFrom(a)
+        }
+
+        window.addEventListener('scroll',onScroll);
+        
+        return () => {
+            window.removeEventListener('scroll',onScroll)
         }
     },[Params])
 
     const handlepagestatue= (e,list)=>{
-        let p =[]
-        for (const element of pagelist) {
-            if(element.name===list.name){
-                p.push({
-                    name:list.name,
-                    value:list.value,
-                    statue:!list.statue
-                })
-            }
-            else{
-                p.push(element)
+        let p =pagelist
+        if(list.type==='scroll'){
+            for (const element1 of p) {
+                if(element1.name===list.name){
+                    element1.statue=!list.statue
+                }
+                else{
+                    for (const element2 of element1.value){
+                        if(element2.name===list.name){
+                            element2.statue=!list.statue
+                        }
+                        else{
+                            for (const element3 of element2.value){
+                                if(element3.name===list.name){
+                                    element3.statue=!list.statue
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
+        else if(list.type==='link'){
+            for (const element1 of p) {
+                if(element1.type==='link'){
+                    element1.statue=false
+                }
+                if(element1.name===list.name){
+                    element1.statue=true
+                }
+                else{
+                    for (const element2 of element1.value){
+                        if(element2.type==='link'){
+                            element2.statue=false
+                        }
+                        if(element2.name===list.name){
+                            element2.statue=true
+                        }
+                        else{
+                            for (const element3 of element2.value){
+                                if(element3.type==='link'){
+                                    element3.statue=false
+                                }
+                                if(element3.name===list.name){
+                                    element3.statue=true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         setpagelist(p)
     }
 
-    const handlepagevalue = (name,value) =>{
-        let html=value.map((list) =>
-            <div>
-                <Link class="dropdown-item tpl2" to={`/reference/rest/${name}/${list}`}>{list}</Link>
-            </div>
+    const handlepagelist = (l,c,n) => {
+        n++;
+        let html = l.map((list) =>
+        {
+            let name='';
+            if(list.name==='Rest Api'){
+                name='rest'
+            }
+            else if(list.name==='Client Libraries'){
+                name='client'
+            }
+            else{
+                name=list.name
+            }
+            if(list.type==='scroll'){
+                let b=c;
+                c+=`/${name}`;
+                let h=<div>
+                        <div class={`grid2 tpl${n} me-3`} onClick={(e) => handlepagestatue(e,list)}>
+                            <Link class={`${list.statue ? 'trun' : ' '} icon2 dropdown-item`}>chevron_right</Link>
+                            <Link
+                                class="dropdown-item"
+                            >{list.name}
+                            </Link>
+                        </div>
+                        <ul class={`${list.statue ? 'navshow' : 'navhide'}`}>
+                            <div>
+                                {handlepagelist(list.value,c,n)}
+                            </div>
+                        </ul>
+                    </div>
+                c = b;
+                return h
+            }
+            else if(list.type==='link'){
+                let b=c;
+                c+=`/${name}`;
+                let h =<div class='me-3'>
+                        <Link 
+                        class={`dropdown-item tpl${n} ${list.statue ? 'onpage':''}`}
+                        onClick={(e) => handlepagestatue(e,list)} 
+                        to={`/reference${c}`}>
+                            {list.name}
+                        </Link>
+                    </div>
+                c=b;
+                return h
+            }
+        }
         )
+        
         return html
     }
-    let html1 =pagelist.map((list) => 
-        <div>
-            <div class='grid2 tpl1' onClick={(e) => handlepagestatue(e,list)}>
-                <Link class={`${list.statue ? 'trun' : ' '} icon2 dropdown-item`}>chevron_right</Link>
-                <Link
-                    class="dropdown-item"
-                >{list.name}
-                </Link>
-            </div>
-            <ul class={`${list.statue ? 'navshow' : 'navhide'}`}>
-                <div>
-                    {handlepagevalue(list.name,list.value)}
-                </div>
-            </ul>
-        </div>
-    )
+
+    let html1 =handlepagelist(pagelist,'',-1)
 
     const handledescription = (value) => {
         let h = value.map((list) =>
-            <td>{apicontent[Params.name][Params.value].description}</td>
+            <td class='word'>{apicontent[Params.name][Params.value].description}</td>
         )
         return h
     }
 
     const handlehttp = (value) => {
         let h = value.map((list) =>
-            <td>{`${apicontent[Params.name][Params.value].method}    ${domain}${apicontent[Params.name][Params.value].api}`}</td>
+            <td class='word'>{`${apicontent[Params.name][Params.value].method}    ${domain}${apicontent[Params.name][Params.value].api}`}</td>
         )
         return h
     }
@@ -825,7 +1034,7 @@ const Reference = () => {
 
         let h =<></>
         h = value.map((list) =>
-            <td><pre>{JSON.stringify(json,null,2)}</pre></td>
+            <td><pre class='word'>{JSON.stringify(json,null,2)}</pre></td>
         )
         
         return h
@@ -842,9 +1051,9 @@ const Reference = () => {
         let h=<></>
         h = l.map((list) =>
             <tr>
-                <td>{apicontent[Params.name][Params.value][name][list].key}</td>
-                <td>{apicontent[Params.name][Params.value][name][list].type}</td>
-                <td>{apicontent[Params.name][Params.value][name][list].description}</td>
+                <td class='word'>{apicontent[Params.name][Params.value][name][list].key}</td>
+                <td class='word'>{apicontent[Params.name][Params.value][name][list].type}</td>
+                <td class='word'>{apicontent[Params.name][Params.value][name][list].description}</td>
             </tr>
         )
         
@@ -852,7 +1061,7 @@ const Reference = () => {
     }
 
     const handletbody = (value) =>{
-        let number = tag.indexOf(value)
+        let number = tag[Params.tag].indexOf(value)
         let h=<></>
         if(Params.name!==undefined && Params.value!==undefined){
             switch (number){
@@ -884,15 +1093,29 @@ const Reference = () => {
 
     const handlespyid = (value) =>{
         let h=<></>;
-        for(const element of spy){
-            if(element === value){
-                h=<div><div class='pt-5 pb-4'id={`${value}`}></div><div>{value}</div></div>
-                return h
-            }
-            else{
-                h=<div>{value}</div>
+        if(Params.value!==undefined){
+            for(const element of spy[Params.tag]){
+                if(element === value){
+                    h=<div style={{'font-weight':'bold'}}><div class='pt-5 pb-4'></div><div>{value}</div></div>
+                    return h
+                }
+                else{
+                    h=<div style={{'font-weight':'bold'}}>{value}</div>
+                }
             }
         }
+        else if(Params.tag!==undefined){
+            for(const element of spy[Params.tag]){
+                if(element === value){
+                    h=<div class='mt-5' style={{'font-weight':'bold'}}><div class='pt-5 pb-4'></div><div>{value}</div></div>
+                    return h
+                }
+                else{
+                    h=<div class='mt-5' style={{'font-weight':'bold'}}>{value}</div>
+                }
+            }
+        }
+        
         return h
     }
 
@@ -903,34 +1126,162 @@ const Reference = () => {
         return h
     }
 
-    let html2 =tag.map((list) =>
-        <div>
-            <table class="table table-striped mt-2">
-            <thead>
-                <tr>
-                    {handlethead(list)}
-                </tr>
-            </thead>
-            <tbody>
-                    {handletbody(list)}
-            </tbody>
-            </table>
+    const handleoverviewbtn = (value) => {
+        let btn={...overviewbtn}
+        btn.c=false
+        btn.n=false
+        btn.p=false
+        btn[value]=true
+        setoverviewbtn(btn)
+    }
+
+    const handleclientoverview = (value) => {
+        let h=<></>
+        if(value===0){
+            h=<div>
+                <p>This page shows how to get started with the Cloud Client Libraries for the Cloud Build API. Client libraries make it easier to access Google Cloud APIs from a supported language. Although you can use Google Cloud APIs directly by making raw requests to the server, client libraries provide simplifications that significantly reduce the amount of code you need to write.</p>
+                <p>However, we recommend using the older Google API Client Libraries if running on App Engine standard environment. Read more about the Cloud Client Libraries and the older Google API Client Libraries in Client libraries explained.</p>
+            </div>
+        }
+        else if(value===1){
+            h=<div class='mt-3'>
+                <div class='tab py-2 px-2 '>
+                    <button class={`${overviewbtn.c? 'active' :''}`} onClick={(e) => handleoverviewbtn('c')}>C++</button>
+                    <button class={`${overviewbtn.n? 'active' :''}`} onClick={(e) =>handleoverviewbtn('n')}>Node.js</button>
+                    <button class={`${overviewbtn.p? 'active' :''}`} onClick={(e) =>handleoverviewbtn('p')}>Python</button>
+                </div>
+                
+                <div class={`p-3 tabbox ${overviewbtn.c? 'active' :''}`}>
+                    <p>See <span style={{'color':'blue'}}>Setting up a C++ development environment</span>
+                    for details about this client library's requirements and install dependencies.</p>
+                </div>
+                
+                <div class={`p-3 tabbox ${overviewbtn.n? 'active' :''}`}>
+                    <pre>npm install --save @google-cloud/cloudbuild</pre>
+                    <p>For more information, see <span style={{'color':'blue'}}>Setting Up a Node.js Development Environment</span>.</p> 
+                </div>
+                
+                <div class={`p-3 tabbox ${overviewbtn.p? 'active' :''}`}>
+                    <pre>pip install --upgrade google-cloud-build</pre>
+                    <p>For more information, see <span style={{'color':'blue'}}>Setting Up a Python Development Environment</span>.</p>
+                </div>
+            </div>
+        }
+        else if(value===2){
+            h=<div  class='mt-3'>
+                <p>To authenticate calls to Google Cloud APIs, client libraries support Application Default Credentials (ADC); the libraries look for credentials in a set of defined locations and use those credentials to authenticate requests to the API. With ADC, you can make credentials available to your application in a variety of environments, such as local development or production, without needing to modify your application code.
+                For production environments, the way you set up ADC depends on the service and context. For more information, see Set up Application Default Credentials.</p>
+                <p>For a local development environment, you can set up ADC with the credentials that are associated with your Google Account:</p>
+                <ol>
+                    <li><p>Install the Google Cloud CLI, then initialize it by running the following command:</p></li>
+                    <pre>gcloud init</pre>
+                    <li><p>If you're using a local shell, then create local authentication credentials for your user account:</p></li>
+                    <pre>gcloud auth application-default login</pre>
+                    <p>You don't need to do this if you're using Cloud Shell.</p>
+                    <p>A sign-in screen appears. After you sign in, your credentials are stored in the local credential file used by ADC.</p>
+                </ol>
+                
+                
+            </div>
+        }
+        else if(value===3){
+            h=<div class='mt-3'>
+                <div class='tab py-2 px-2 '>
+                    <button class={`${overviewbtn.c? 'active' :''}`} onClick={(e) => handleoverviewbtn('c')}>C++</button>
+                    <button class={`${overviewbtn.n? 'active' :''}`} onClick={(e) =>handleoverviewbtn('n')}>Node.js</button>
+                    <button class={`${overviewbtn.p? 'active' :''}`} onClick={(e) =>handleoverviewbtn('p')}>Python</button>
+                </div>
+                
+                <div class={`p-3 tabbox ${overviewbtn.c? 'active' :''}`}>
+                    <pre>C++</pre>
+                </div>
+                
+                <div class={`p-3 tabbox ${overviewbtn.n? 'active' :''}`}>
+                    <pre>Node.js</pre>
+                </div>
+                
+                <div class={`p-3 tabbox ${overviewbtn.p? 'active' :''}`}>
+                    <pre>Python</pre>
+                </div>
+            </div>
+        }
+        else if(value===4){
+            h=<div class='mt-3'>
+                <div class='tab py-2 px-2 '>
+                    <button class={`${overviewbtn.c? 'active' :''}`} onClick={(e) => handleoverviewbtn('c')}>C++</button>
+                    <button class={`${overviewbtn.n? 'active' :''}`} onClick={(e) =>handleoverviewbtn('n')}>Node.js</button>
+                    <button class={`${overviewbtn.p? 'active' :''}`} onClick={(e) =>handleoverviewbtn('p')}>Python</button>
+                </div>
+                
+                <div class={`p-3 tabbox ${overviewbtn.c? 'active' :''}`}>
+                    <p>The following list contains links to more resources related to the client library for C++:</p>
+                    <li><span style={{'color':'blue'}}>API reference</span></li>
+                    <li><span style={{'color':'blue'}}>Client libraries best practices</span></li>
+                    <li><span style={{'color':'blue'}}>Issue tracker</span></li>
+                    <li><span style={{'color':'blue'}}>google-cloudbuild on Stack Overflow</span></li>
+                    <li><span style={{'color':'blue'}}>Source code</span></li>
+                </div>
+                
+                <div class={`p-3 tabbox ${overviewbtn.n? 'active' :''}`}>
+                    <p>The following list contains links to more resources related to the client library for Node.js:</p>
+                    <li><span style={{'color':'blue'}}>API reference</span></li>
+                    <li><span style={{'color':'blue'}}>Client libraries best practices</span></li>
+                    <li><span style={{'color':'blue'}}>Issue tracker</span></li>
+                    <li><span style={{'color':'blue'}}>google-cloudbuild on Stack Overflow</span></li>
+                    <li><span style={{'color':'blue'}}>Source code</span></li>
+                </div>
+                
+                <div class={`p-3 tabbox ${overviewbtn.p? 'active' :''}`}>
+                    <p>The following list contains links to more resources related to the client library for Python</p>
+                    <li><span style={{'color':'blue'}}>API reference</span></li>
+                    <li><span style={{'color':'blue'}}>Client libraries best practices</span></li>
+                    <li><span style={{'color':'blue'}}>Issue tracker</span></li>
+                    <li><span style={{'color':'blue'}}>google-cloudbuild on Stack Overflow</span></li>
+                    <li><span style={{'color':'blue'}}>Source code</span></li>
+                </div>
+            </div>
+        }
+        return h
+    }
+
+    let html2 =tag[Params.tag].map((list,index) => {
+        let h=<></>
+        if(Params.value!==undefined){
+            h=<div id={`${list[0]}`} class="pt-3">
+                <table class="table table-striped mt-5">
+                <thead>
+                    <tr>
+                        {handlethead(list)}
+                    </tr>
+                </thead>
+                <tbody>
+                        {handletbody(list)}
+                </tbody>
+                </table>
+            </div>
+        }
+        else  if(Params.name!==undefined){
+            h=<div id={`${list[0]}`} class="pt-4">
+            {handlespyid(list[0])}
+            {handleclientoverview(index)}
+            
         </div>
-    )
+        }
+        return h
+    })
 
     const handlescrollspy = (e) => {
         let name=e.target.innerText
         document.getElementById(name).scrollIntoView({'behavior':'instant'});
     }
 
-    let html3=spy.map((list) => 
+    let html3=spy[Params.tag].map((list) => 
         <Link
             style={{'font-size': '14px'}}
-            id={list}
             onClick={(e) => handlescrollspy(e)}
-            class="dropdown-item pt-2 item"
+            class={` dropdown-item pt-2 item ${list.statue ? 'onspy':''}`}
         >
-            {list}
+            {list.name}
         </Link>
     )
 
@@ -969,7 +1320,7 @@ const Reference = () => {
             
                 for (let index = 0; index < newFiles.files.length; index++){
                     const element = newFiles.files[index];
-                    formData.append('file-' + index, element); // 確保每個文件都被正確命名
+                    formData.append('file-' + index, element); 
                 }
                 formData.forEach((value, key) => object[key] = value);
             }
@@ -1017,7 +1368,7 @@ const Reference = () => {
                 type={value.type}
                 class="form-control"
                 placeholder={value.key}
-                value={JSON.stringify(value.example)}
+                value={value.example}
                 style={{'field-sizing': 'content'}}
                 onChange={(e) => changeInputBox(e)}
                 />
@@ -1055,13 +1406,14 @@ const Reference = () => {
         return h
     }
 
-    let html4 = <></>;
-    if(Params.name!==undefined && Params.value!==undefined){
-
-      html4 = inputFrom.map((list) =>
-        handleinputtype(list)
-      )
-    }
+    let html4 = inputFrom.map((list) => {
+        let h=<></>
+        if(Params.name!==undefined && Params.value!==undefined){
+            h=handleinputtype(list)
+        }
+        return h
+    })
+    
 
     const Execute = () => {
         let outputFrom={}
@@ -1114,18 +1466,9 @@ const Reference = () => {
                 <div class={`${isMouseClick? 'navback' : ''}`}>
                     <div class={`nav ${isMouseClick? 'active' : ''}`}>
                     <nav style={{'display':`${isMouseClick? 'block':'none'}`}}>
-                    <div style={{'margin-top':'24px'}}>
-                    <div class='grid2' onClick={() => setisDropDownMenu(!isDropDownMenu)}>
-                            <Link class={`${isDropDownMenu ? 'trun' : ' '} icon2 dropdown-item`}>chevron_right</Link>
-                            <Link
-                                class="dropdown-item"
-                            >Rest Api
-                            </Link>
-                        </div>
-                        <ul class={`${isDropDownMenu ? 'navshow' : 'navhide'}`}>
+                        <div class='mt-3 mb-5'>
                             {html1}
-                        </ul>
-                    </div>
+                        </div>
                     </nav>
                     </div>
                 </div>
@@ -1149,77 +1492,65 @@ const Reference = () => {
                   </button>
                 }
                 
-                
-
-                {Params.value!==undefined ?
-                    <div class="main1">
-                        <div class="main2">
-                            <div class="main3">
-                                <div class="fs-2">{`Api:${claim}`}</div>
-                                <div class='mmm'></div>
-                                {html2}
+                <div class="main1">
+                    <div class="main2">
+                        <div class="main3">
+                            <div class="fs-2">{claim}</div>
+                            <div class='spy'>
+                                <div style={{'padding':'10px','border-left': 'thick double #32a1ce'}}>
+                                    <div class='fw-bold' style={{'font-size': '16px'}}>On this page</div>
+                                    {html3}
+                                    {Params.value!==undefined ?
+                                    <button
+                                        type="button" 
+                                        class="btn btn-primary mt-3"
+                                        onClick={handleCloseBtn}
+                                    >
+                                        Try it!
+                                    </button>
+                                    :
+                                    <></>
+                                    }
+                                </div>
                             </div>
-                        </div>
-                    </div> 
-                :
-                    <div class="main1">
-                        <div class="main2">
-                            <div class="main3">
-                                <div class="fs-2">{`Api:${claim}`}</div>
-                                
-                            </div>
+                            {html2}
                         </div>
                     </div>
-                }
+                </div> 
 
                 <div style={{'width':'fit-content'}}>
-                  {Params.value!==undefined ?
-                      <div class='spy'>
-                          <div style={{'padding':'10px','border-left': 'thick double #32a1ce'}}>
-                              <div class='fw-bold' style={{'font-size': '16px'}}>On this page</div>
-                              {html3}
-                              <button
-                                  type="button" 
-                                  class="btn btn-primary mt-3"
-                                  onClick={handleCloseBtn}
-                              >
-                                  Try it!
-                              </button>
-                          </div>
-                      </div>
-                  :
-                  <div class='spy'>
-                      <div style={{'padding':'10px','border-left': 'thick double #32a1ce'}}>
-                          <div class='fw-bold' style={{'font-size': '16px'}}>On this page</div>
-                          
-                      </div>
-                  </div>
-                  }
-                  <div class={`${isCloseBtn? '':'show'} dropdown-menu dropdown-menu-end input`} style={{'overflow-y': 'auto'}}>
-                    <form  class="px-4 py-3">
-                      {isCloseBtn?
-                        <></>
+
+                    {Params.value!==undefined?
+                        <div class={`${isCloseBtn? '':'show'} dropdown-menu dropdown-menu-end input`} style={{'overflow-y': 'auto'}}>
+                            <form  class="px-4 py-3">
+                            {isCloseBtn?
+                                <></>
+                                :
+                                <button 
+                                type="button" 
+                                class="btn-close closebtn active" 
+                                aria-label="Close"
+                                onClick={handleCloseBtn}
+                                collapsed="">
+                                </button>
+                            }
+                            {html4}
+                            <button 
+                            type="button" 
+                            class="btn btn-primary" 
+                            style={{'left': '85px','position': 'relative'}} 
+                            onClick={Execute}
+                            >
+                                Execute
+                            </button>
+                            </form>
+                        </div>
                         :
-                        <button 
-                        type="button" 
-                        class="btn-close closebtn active" 
-                        aria-label="Close"
-                        onClick={handleCloseBtn}
-                        collapsed="">
-                        </button>
-                      }
-                      {html4}
-                      <button 
-                      type="button" 
-                      class="btn btn-primary" 
-                      style={{'left': '85px','position': 'relative'}} 
-                      onClick={Execute}
-                      >
-                        Execute
-                      </button>
-                    </form>
-                  </div>
+                        <></>
+                    }
                 </div>
+                
+                  
                 
             </div>
         </Fragment>    

@@ -45,16 +45,40 @@
     display: block;
     height: calc(100vh - 68.8px);
     overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-button {
+        background: transparent;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track-piece {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.1);
+        bottom: 1px solid;
+    }
+
+    &::-webkit-scrollbar-track {
+        box-shadow: transparent;
+    }
 }
 
 .spy{
-    position: sticky;
+    position: fixed;
     top: 68.8px;
     padding-top: 20px;
     padding-right: 20px;
     padding-bottom: 20px;
     width: 160px;
-    height: calc(100vh - 68.8px);
+    left: calc(100vw - 190px);
+    
 }
 
 .btn1type1 {
@@ -140,7 +164,7 @@
     transform: rotate(90deg);
 }
 
-pre{
+.word{
     word-break: break-all;
     word-wrap: break-word;
     white-space: pre-wrap;
@@ -194,10 +218,79 @@ ul{
     color: #0080FF;
 }
 
-.sect:nth-of-type(0) {
-    background:
-      right 2rem top 2rem / 15em var(--linkheight) no-repeat linear-gradient(#ccc, #ccc);
-      
+.item.onspy{
+    color: #004B97;
+}
+
+.item.onspy:hover{
+    color: #0080FF;
+}
+
+.tpl1.onpage{
+    background-color:#ECF5FF;
+    border-radius: 0 12px 12px 0;
+    color:#004B97;
+}
+
+.tpl1.onpage:hover{
+    background-color:#ECF5FF;
+    border-radius: 0 12px 12px 0;
+    color:#0080FF;
+}
+
+.tpl2.onpage{
+    background-color:#ECF5FF;
+    border-radius: 0 12px 12px 0;
+    color:#004B97;
+}
+
+.tpl2.onpage:hover{
+    background-color:#ECF5FF;
+    border-radius: 0 12px 12px 0;
+    color:#0080FF;
+}
+
+.tab{
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius:20px 20px 0px 0px;
+    background-color: #fff;
+}
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #5c6161;
+    font-weight: bold;
+}
+
+.tab button.active{
+    color: #0080FF;
+    border-bottom: solid 3px  #0080FF;
+}
+
+.tab button:hover {
+    border-bottom: solid 3px  #686c6e;
+    &.active{
+        color: #0080FF;
+        border-bottom: solid 3px  #0080FF;
+    }
+}
+
+.tabbox{
+    display: none;
+}
+
+.tabbox.active{
+    overflow: hidden;
+    display: block;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius:0px 0px 20px 20px;
+    background-color: #fff;
 }
 
 
@@ -242,14 +335,10 @@ ul{
     }
     
     .spy{
-        position: relative;
-        top: 115px;
-        right: calc(100vw - 80px);
+        position:static;
         padding-top: 20px;
         padding-right: 20px;
-        padding-bottom: 20px;
-        width: 160px;
-        height: calc(100vh - 68.8px);
+        padding-bottom: 20px;   
     }
 
     .navback{
