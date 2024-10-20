@@ -12,6 +12,8 @@ import {
   useParams,
 } from 'react-router-dom';
 
+import JsonEditor from './JsonEditor';
+
 class Pagelist {
     name = '';
     value = [];
@@ -110,6 +112,8 @@ const Reference = () => {
                     'image',
                     [
                         new Pagelist('deleteimage',[],false,'link'),
+                        new Pagelist('getimage',[],false,'link'),
+                        new Pagelist('listimage',[],false,'link'),
                         new Pagelist('uploadimage',[],false,'link'),
                         new Pagelist('feedbackinformation',[],false,'link')
                     ],
@@ -130,6 +134,8 @@ const Reference = () => {
                     [
                         new Pagelist('deletemodel',[],false,'link'),
                         new Pagelist('downloadmodel',[],false,'link'),
+                        new Pagelist('getmodel',[],false,'link'),
+                        new Pagelist('listmodel',[],false,'link'),
                         new Pagelist('uploadmodel',[],false,'link')
                     ],
                     false,
@@ -326,8 +332,8 @@ const Reference = () => {
                 }
             ),
             getsingleproject:new Content(
-                'This api is responsible for deleting the project',
-                '/api/v2/project/delete',
+                'This api is responsible for getting the single project information',
+                '/api/v2/project/get',
                 'POST',
                 {
                     token:new Newtype1(
@@ -441,6 +447,85 @@ const Reference = () => {
                     err_msg:new Newtype1('delete image success','err_msg','string','Error message, only used when err = 1')
                 }
             ),
+            getimage:new Content(
+                'This api is responsible for getting the image information',
+                '/api/v2/image/get',
+                'POST',
+                {
+                    token:new Newtype1(
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjExNSwiZW1haWwiOiIxMjM0QGdtYWlsLmNvbSIsImV4cCI6MTcyMTgxNTcxNX0.uAaFFkgMabBfldKIgPGkF9XINZ0t9pnsOHiWMkA3e9c',
+                        'token','string','Access token'
+                    ),
+                    username:new Newtype1('115','username','string','user id'),
+                    projectname:new Newtype1('testing_project2','projectname','string','project name')
+                },
+                {
+                    err:new Newtype1('false','err','string','1: error, 0: success'),
+                    err_msg:new Newtype1('Get image info success','err_msg','string','Error message, only used when err = 1'),
+                    image_list:new Newtype1(
+                        [
+                            {
+                                "LastUpdated": "2024-07-13 06:35:14.218",
+                                "image_name": "4.png",
+                                "image_path": "uploads/115/testing_project2/4.png",
+                                "img_info": null
+                            },
+                            {
+                                "LastUpdated": "2024-07-24 08:44:24.827",
+                                "image_name": "image_19.jpg",
+                                "image_path": "uploads/115/testing_project2/image_19.jpg",
+                                "img_info": null
+                            },
+                            {
+                                "LastUpdated": "2024-07-24 08:44:29.034",
+                                "image_name": "image_21.jpg",
+                                "image_path": "uploads/115/testing_project2/image_21.jpg",
+                                "img_info": null
+                            },
+                            {
+                                "LastUpdated": "2024-07-24 08:45:22.231",
+                                "image_name": "image_10.jpg",
+                                "image_path": "uploads/115/testing_project2/image_10.jpg",
+                                "img_info": null
+                            },
+                            {
+                                "LastUpdated": "2024-07-24 08:45:26.450",
+                                "image_name": "image_4.jpg",
+                                "image_path": "uploads/115/testing_project2/image_4.jpg",
+                                "img_info": null
+                            }
+                        ],
+                        'image_list','array json','Image information'
+                    )
+                }
+            ),
+            listimage:new Content(
+                'This api is responsible for listing the images',
+                '/api/v2/image/list',
+                'POST',
+                {
+                    token:new Newtype1(
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjExNSwiZW1haWwiOiIxMjM0QGdtYWlsLmNvbSIsImV4cCI6MTcyMDM1OTAxMX0.cvJCkIXLp0h6oGjERkLjUJIwpIACloXU1t366wGIS58',
+                        'token','string','Access token'
+                    ),
+                    username:new Newtype1('115','username','string','user id'),
+                    projectname:new Newtype1('testing_project2','projectname','string','project name')
+                },
+                {
+                    err:new Newtype1('false','err','string','1: error, 0: success'),
+                    err_msg:new Newtype1('images found in s3','err_msg','string','Error message, only used when err = 1'),
+                    images:new Newtype1(
+                        [
+                            "uploads/115/testing_project2/4.png",
+                            "uploads/115/testing_project2/image_10.jpg",
+                            "uploads/115/testing_project2/image_19.jpg",
+                            "uploads/115/testing_project2/image_21.jpg",
+                            "uploads/115/testing_project2/image_4.jpg"
+                        ],
+                        'images','array string','Image path from s3'
+                    )
+                }
+            ),
             uploadimage:new Content(
                 'This api is responsible for uploading the image',
                 '/api/v2/image/upload',
@@ -463,7 +548,7 @@ const Reference = () => {
                             "getallproject.png",
                             "getsingleproject.png"
                         ]
-                        ,'uploaded_files','string','uploaded files list'
+                        ,'uploaded_files','array string','uploaded files list'
                     )
                 }
             ),
@@ -587,6 +672,65 @@ const Reference = () => {
                     model:new Newtype1('file','model','file','actual model file')
                 }
             ),
+            getmodel:new Content(
+                'This api is responsible for getting the model information',
+                '/api/v2/model/get',
+                'POST',
+                {
+                    token:new Newtype1(
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjExNSwiZW1haWwiOiIxMjM0QGdtYWlsLmNvbSIsImV4cCI6MTcyMTgxOTY4MX0.tfj5rFwd-LLVwYjOe_w4b0FH7Gr9ftcw1aeYnFsaGVk',
+                        'token','string','Access token'
+                    ),
+                    username:new Newtype1('115','username','string','user id'),
+                    projectname:new Newtype1('testing_project2','projectname','string','project name')
+                },
+                {
+                    err:new Newtype1('false','err','string','1: error, 0: success'),
+                    err_msg:new Newtype1('get model success','err_msg','string','Error message, only used when err = 1'),
+                    model_list:new Newtype1(
+                        [
+                            {
+                                "createtime": "2024-07-13 07:02:52.913",
+                                "id": 76,
+                                "model_name": "yolov3tiny.zip",
+                                "model_path": "uploads/115/testing_project2/model/yolov3tiny.zip",
+                                "project_id": "624",
+                                "version_number": "1"
+                            }
+                        ],
+                        'model_list','array json','model information'
+                    )
+                }
+            ),
+            listmodel:new Content(
+                'This api is responsible for listing the model',
+                '/api/v2/model/list',
+                'POST',
+                {
+                    token:new Newtype1(
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjExNSwiZW1haWwiOiIxMjM0QGdtYWlsLmNvbSIsImV4cCI6MTcyMTgxOTY4MX0.tfj5rFwd-LLVwYjOe_w4b0FH7Gr9ftcw1aeYnFsaGVk',
+                        'token','string','Access token'
+                    ),
+                    project_id:new Newtype1('624','project_id','string','Project id')
+                },
+                {
+                    err:new Newtype1('false','err','string','1: error, 0: success'),
+                    err_msg:new Newtype1('images found in s3','err_msg','string','Error message, only used when err = 1'),
+                    model_list:new Newtype1(
+                        [
+                            {
+                                "createtime": "2024-07-13 07:02:52.913",
+                                "id": 76,
+                                "model_name": "yolov3tiny.zip",
+                                "model_path": "uploads/115/testing_project2/model/yolov3tiny.zip",
+                                "project_id": "624",
+                                "version_number": "1"
+                            }
+                        ],
+                        'model_list','array json','model information'
+                    )
+                }
+            ),
             uploadmodel:new Content(
                 'This api is responsible for uploading the model',
                 '/api/v2/model/upload',
@@ -697,7 +841,7 @@ const Reference = () => {
                                 "model_styleimg_base64": "base64"
                             }
                         ]
-                        ,'model_list','string','model information'
+                        ,'model_list','array json','model information'
                     )
                 }
             ),
@@ -733,8 +877,6 @@ const Reference = () => {
                     )
                 },
                 {
-                    err:new Newtype1('false','err','string','1: error, 0: success'),
-                    err_msg:new Newtype1('deploy ec2 success','err_msg','string','Error message, only used when err = 1'),
                     instance_id:new Newtype1('i-03e0edfae53e98623','instance_id','string','instance_id')
                 }
             ),
@@ -750,8 +892,37 @@ const Reference = () => {
                     instance_id:new Newtype1('i-03e0edfae53e98623','instance_id','string','instance_id')
                 },
                 {
-                    err:new Newtype1('false','err','string','1: error, 0: success'),
-                    err_msg:new Newtype1('start ec2 success','err_msg','string','Error message, only used when err = 1')
+                    ResponseMetadata:new Newtype1(
+                        {
+                            "HTTPHeaders": {
+                              "cache-control": "no-cache, no-store",
+                              "content-length": "412",
+                              "content-type": "text/xml;charset=UTF-8",
+                              "date": "Fri, 18 Oct 2024 12:29:11 GMT",
+                              "server": "AmazonEC2",
+                              "strict-transport-security": "max-age=31536000; includeSubDomains",
+                              "x-amzn-requestid": "880fac54-dc6a-4e3e-a838-25ee518af42f"
+                            },
+                            "HTTPStatusCode": 200,
+                            "RequestId": "880fac54-dc6a-4e3e-a838-25ee518af42f",
+                            "RetryAttempts": 0
+                        },
+                        'ResponseMetadata','json','Response Meta data'),
+                    StartingInstances:new Newtype1(
+                        [
+                            {
+                              "CurrentState": {
+                                "Code": 16,
+                                "Name": "running"
+                              },
+                              "InstanceId": "i-0d4542539ba13bd7a",
+                              "PreviousState": {
+                                "Code": 16,
+                                "Name": "running"
+                              }
+                            }
+                        ],
+                        'StartingInstances','array json','Starting Instances')
                 }
             ),
             stopec2:new Content(
@@ -766,8 +937,37 @@ const Reference = () => {
                     instance_id:new Newtype1('i-03e0edfae53e98623','instance_id','string','instance_id')
                 },
                 {
-                    err:new Newtype1('false','err','string','1: error, 0: success'),
-                    err_msg:new Newtype1('stop ec2 success','err_msg','string','Error message, only used when err = 1')
+                    ResponseMetadata:new Newtype1(
+                        {
+                            "HTTPHeaders": {
+                              "cache-control": "no-cache, no-store",
+                              "content-length": "411",
+                              "content-type": "text/xml;charset=UTF-8",
+                              "date": "Fri, 18 Oct 2024 12:32:57 GMT",
+                              "server": "AmazonEC2",
+                              "strict-transport-security": "max-age=31536000; includeSubDomains",
+                              "x-amzn-requestid": "e235d5d7-1ed1-4a7d-9897-ed8b0ec2aa9a"
+                            },
+                            "HTTPStatusCode": 200,
+                            "RequestId": "e235d5d7-1ed1-4a7d-9897-ed8b0ec2aa9a",
+                            "RetryAttempts": 0
+                        },
+                        'ResponseMetadata','json','Response Meta data'),
+                    StoppingInstances:new Newtype1(
+                        [
+                            {
+                              "CurrentState": {
+                                "Code": 64,
+                                "Name": "stopping"
+                              },
+                              "InstanceId": "i-0d4542539ba13bd7a",
+                              "PreviousState": {
+                                "Code": 16,
+                                "Name": "running"
+                              }
+                            }
+                        ],
+                        'StoppingInstances','array json','Stopping Instances')
                 }
             ),
             deleteec2:new Content(
@@ -782,8 +982,37 @@ const Reference = () => {
                     instance_id:new Newtype1('i-03e0edfae53e98623','instance_id','string','instance_id')
                 },
                 {
-                    err:new Newtype1('false','err','string','1: error, 0: success'),
-                    err_msg:new Newtype1('stop ec2 success','err_msg','string','Error message, only used when err = 1')
+                    ResponseMetadata:new Newtype1(
+                        {
+                            "HTTPHeaders": {
+                              "cache-control": "no-cache, no-store",
+                              "content-length": "423",
+                              "content-type": "text/xml;charset=UTF-8",
+                              "date": "Fri, 18 Oct 2024 12:34:25 GMT",
+                              "server": "AmazonEC2",
+                              "strict-transport-security": "max-age=31536000; includeSubDomains",
+                              "x-amzn-requestid": "6f4ecc54-21b4-4a52-aa21-6f584282f6ac"
+                            },
+                            "HTTPStatusCode": 200,
+                            "RequestId": "6f4ecc54-21b4-4a52-aa21-6f584282f6ac",
+                            "RetryAttempts": 0
+                        },
+                        'ResponseMetadata','json','Response Meta data'),
+                    TerminatingInstances:new Newtype1(
+                        [
+                            {
+                              "CurrentState": {
+                                "Code": 48,
+                                "Name": "terminated"
+                              },
+                              "InstanceId": "i-0d4542539ba13bd7a",
+                              "PreviousState": {
+                                "Code": 80,
+                                "Name": "stopped"
+                              }
+                            }
+                        ],
+                        'TerminatingInstances','array json','Terminating Instances')
                 }
             )
         }
@@ -836,11 +1065,12 @@ const Reference = () => {
     const [overviewbtn,setoverviewbtn]=useState({
         c:true,n:false,p:false      
     });
+    
+    const [responsemsg,setresponsemsg]=useState({})
 
     const onScroll = () => {
         let w_y=window.pageYOffset
         let s={...spy}
-        console.log(Params.tag)
         if(document.getElementById(s[Params.tag][0].name)!==null){
             
             let c;
@@ -882,9 +1112,18 @@ const Reference = () => {
         setclaim(h)
         let a=[]
         if(Params.name!==undefined&&Params.value!==undefined){
+            console.log(1)
           for (const [key, value] of Object.entries(apicontent[Params.name][Params.value].request)) {
             let v = value
-            v.example=''
+            if(v.type==='file'){
+                v.example=[new File([""],'')];
+            }
+            else if(v.type==='json'){
+                v.example={ example:'example'};
+            }
+            else{
+                v.example=''
+            }
             a.push(v)
           }
           setinputFrom(a)
@@ -1031,7 +1270,7 @@ const Reference = () => {
                 json[value.key]=value.example
             }
         }
-
+        
         let h =<></>
         h = value.map((list) =>
             <td><pre class='word'>{JSON.stringify(json,null,2)}</pre></td>
@@ -1285,63 +1524,46 @@ const Reference = () => {
         </Link>
     )
 
+    const updateInputFrom = (key, value) => {
+        setinputFrom((prevInputFrom) => 
+            prevInputFrom.map((element) => 
+              element.key === key ? { ...element, example: value } : element
+            )
+          );
+      };
+
     const changeInputBox = (e) =>{
-      let a=[]
-      for(const element of inputFrom){
-        if(element.key===e.target.name){
-          let b ={
-            example:e.target.value,
-            key:element.key,
-            type:element.type,
-            description:element.description
-          }
-          a.push(b)
-        }
-        else{
-          a.push(element)
-        }
-      }
-      console.log(a)
-      setinputFrom(a)
+        const { name, value } = e.target;
+        updateInputFrom(name, value);
     }
 
+    const handlejsonvalue = (value,key) =>{
+        updateInputFrom(key, value);
+    }
 
     const onSelected = (event) => {
+        let files =[new File([""],'')]
+
         if(event.target.files.length > 0){
-            let files =event.target.file
-            var object = {};
-            
-            if (files) {
-                const newFiles = new DataTransfer();
-                for (let index = 0; index < files.length; index++) {
-                    newFiles.items.add(files[index]);
-                }
-                const formData = new FormData();
-            
-                for (let index = 0; index < newFiles.files.length; index++){
-                    const element = newFiles.files[index];
-                    formData.append('file-' + index, element); 
-                }
-                formData.forEach((value, key) => object[key] = value);
-            }
-            
-            let a=[]
-            for(const element of inputFrom){
-                if(element.key===event.target.name){
-                let b ={
-                    example:object,
-                    key:element.key,
-                    type:element.type,
-                    description:element.description
-                }
-                a.push(b)
-                }
-                else{
-                a.push(element)
-                }
-            }
-            setinputFrom(a)
+            files =event.target.files
         }
+
+        let a=[]
+        for(const element of inputFrom){
+            if(element.key===event.target.name){
+            let b ={
+                example:files,
+                key:element.key,
+                type:element.type,
+                description:element.description
+            }
+            a.push(b)
+            }
+            else{
+            a.push(element)
+            }
+        }
+        setinputFrom(a)
     }
 
     const handleinputtype = (value) =>{
@@ -1363,15 +1585,7 @@ const Reference = () => {
         else if(value.type==='json'){
             h=<div class="mb-3">
                 <label class="form-label">{value.key}</label>
-                <textarea
-                name={value.key}
-                type={value.type}
-                class="form-control"
-                placeholder={value.key}
-                value={value.example}
-                style={{'field-sizing': 'content'}}
-                onChange={(e) => changeInputBox(e)}
-                />
+                <JsonEditor value={value.example} KEY={value.key} handlejsonvalue={handlejsonvalue} />
             </div>
         }
         else if(value.key==='token'){
@@ -1415,14 +1629,22 @@ const Reference = () => {
     })
     
 
+
+
     const Execute = () => {
         let outputFrom={}
+        let isfile = false
+
         for (const e of inputFrom) {
             outputFrom[e.key]=e.example
+            if(e.type==='file'){
+                isfile=true
+            }
         }
-        console.log(outputFrom)
 
-        axios.post(domain + apicontent[Params.name][Params.value].api,JSON.stringify(outputFrom),{
+        let data = JSON.stringify(outputFrom)
+
+        let header = {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'content-type': 'application/json',
@@ -1430,35 +1652,82 @@ const Reference = () => {
               responseType: 'text',
               reportProgress: true,
               observe: 'events',
-        })
-        .then(
-            (response) => {
-                try{
-                    if(!JSON.parse(response.data).err){
-                        alert(response.data)
-                    }
-                    else{
-                        alert("Input error")
+        }
+
+        if (isfile) {
+            data = new FormData();
+            
+            for (let index = 0; index < inputFrom.length; index++){
+                if(inputFrom[index].type==='file'){
+                    for(const element of inputFrom[index].example){
+                        data.append(inputFrom[index].key,element);
                     }
                 }
+                else{
+                    data.append(inputFrom[index].key,inputFrom[index].example);
+                }
+                
+            }
+
+            for (var pair of data.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
+
+            header = {
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'multipart/form-data',
+                  },
+                  responseType: 'text',
+                  reportProgress: true,
+                  observe: 'events'
+            }
+        }
+
+        axios.post(domain + apicontent[Params.name][Params.value].api,data,header)
+        .then(
+            (response) => {
+                console.log(response)
+                try{
+                    if(!JSON.parse(response.data).err){
+                        alert(`success`)
+                        setresponsemsg(JSON.parse(response.data))
+                    }
+                    else{
+                        alert(`error`)
+                        setresponsemsg(JSON.parse(response.data))
+                    }
+
+                }
                 catch{
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+        
+                    const link = document.createElement('a');
+                    link.href = url;
+
+                    link.setAttribute('download');
                     
+                    document.body.appendChild(link);
+                    link.click();
+
+                    link.parentNode.removeChild(link);
                 }
             }
         )
         .catch((error) => {
             if (error.response) {
-              console.log(error.response);
-              console.log("server responded");
+            console.log(error.response);
+            console.log("server responded");
             } else if (error.request) {
-              console.log("network error");
+            console.log("network error");
             } else {
-              console.log(error);
+            console.log(error);
             }
         });
-        
-        
+
     }
+
+    
 
     return(
         <Fragment>
@@ -1543,6 +1812,11 @@ const Reference = () => {
                             >
                                 Execute
                             </button>
+                            <div>
+                                <pre class='word'>
+                                    {JSON.stringify(responsemsg,null,2)}
+                                </pre>
+                            </div>
                             </form>
                         </div>
                         :

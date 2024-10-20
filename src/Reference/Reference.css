@@ -293,6 +293,31 @@ ul{
     background-color: #fff;
 }
 
+textarea{
+    resize: none;
+}
+
+.jsoneditor{
+    border-radius:10px;
+}
+
+.jsoneditor-statusbar{
+    border-radius:0px 0px 10px 10px;
+}
+
+.jsoneditor-menu{
+    border-radius:9px 9px 0px 0px;
+}
+
+.jsoneditor-menu a{
+    display: none;
+}
+
+.jsoneditor-menu button{
+    &.jsoneditor-repair{
+        display: none;
+    }
+}
 
 @media (max-width: 992px){
     
