@@ -12,6 +12,7 @@ import {
   useParams,
 } from 'react-router-dom';
 
+import ItemBtn from './ItemBtn';
 import JsonEditor from './JsonEditor';
 
 class Pagelist {
@@ -72,6 +73,11 @@ const Reference = () => {
         if(!isMouseClick){
             setisMouseEnter(!isMouseEnter)
         }
+    }
+
+    const [btn3click,setbtn3click] = useState(false)
+    const handleBtn3Click = () => {
+        setbtn3click(!btn3click)
     }
 
     var accept = '*';
@@ -1395,14 +1401,28 @@ const Reference = () => {
                     for details about this client library's requirements and install dependencies.</p>
                 </div>
                 
-                <div class={`p-3 tabbox ${overviewbtn.n? 'active' :''}`}>
-                    <pre>npm install --save @google-cloud/cloudbuild</pre>
-                    <p>For more information, see <span style={{'color':'blue'}}>Setting Up a Node.js Development Environment</span>.</p> 
+                <div class={`tabbox ${overviewbtn.n? 'active' :''}`}>
+                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                        <ItemBtn 
+                        Value={'npm install --save @google-cloud/cloudbuild'}
+                        btn3click={btn3click}
+                        handleBtn3Click={handleBtn3Click}/>
+                    </div>
+                    <div class='px-3'>
+                        <p>For more information, see <span style={{'color':'blue'}}>Setting Up a Node.js Development Environment</span>.</p>
+                    </div>
                 </div>
                 
-                <div class={`p-3 tabbox ${overviewbtn.p? 'active' :''}`}>
-                    <pre>pip install --upgrade google-cloud-build</pre>
-                    <p>For more information, see <span style={{'color':'blue'}}>Setting Up a Python Development Environment</span>.</p>
+                <div class={`tabbox ${overviewbtn.p? 'active' :''}`}>
+                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                        <ItemBtn 
+                        Value={'pip install --upgrade google-cloud-build'}
+                        btn3click={btn3click}
+                        handleBtn3Click={handleBtn3Click}/>
+                    </div>
+                    <div class='px-3'>
+                        <p>For more information, see <span style={{'color':'blue'}}>Setting Up a Python Development Environment</span>.</p>
+                    </div>
                 </div>
             </div>
         }
@@ -1413,9 +1433,19 @@ const Reference = () => {
                 <p>For a local development environment, you can set up ADC with the credentials that are associated with your Google Account:</p>
                 <ol>
                     <li><p>Install the Google Cloud CLI, then initialize it by running the following command:</p></li>
-                    <pre>gcloud init</pre>
+                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                        <ItemBtn 
+                        Value={'gcloud init'}
+                        btn3click={btn3click}
+                        handleBtn3Click={handleBtn3Click}/>
+                    </div>
                     <li><p>If you're using a local shell, then create local authentication credentials for your user account:</p></li>
-                    <pre>gcloud auth application-default login</pre>
+                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                        <ItemBtn 
+                        Value={'gcloud auth application-default login'}
+                        btn3click={btn3click}
+                        handleBtn3Click={handleBtn3Click}/>
+                    </div>
                     <p>You don't need to do this if you're using Cloud Shell.</p>
                     <p>A sign-in screen appears. After you sign in, your credentials are stored in the local credential file used by ADC.</p>
                 </ol>
@@ -1431,16 +1461,31 @@ const Reference = () => {
                     <button class={`${overviewbtn.p? 'active' :''}`} onClick={(e) =>handleoverviewbtn('p')}>Python</button>
                 </div>
                 
-                <div class={`p-3 tabbox ${overviewbtn.c? 'active' :''}`}>
-                    <pre>C++</pre>
+                <div class={`tabbox ${overviewbtn.c? 'active' :''}`}>
+                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                        <ItemBtn 
+                        Value={'C++'}
+                        btn3click={btn3click}
+                        handleBtn3Click={handleBtn3Click}/>
+                    </div>
                 </div>
                 
-                <div class={`p-3 tabbox ${overviewbtn.n? 'active' :''}`}>
-                    <pre>Node.js</pre>
+                <div class={`tabbox ${overviewbtn.n? 'active' :''}`}>
+                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                        <ItemBtn 
+                        Value={'Node.js'}
+                        btn3click={btn3click}
+                        handleBtn3Click={handleBtn3Click}/>
+                    </div>
                 </div>
                 
-                <div class={`p-3 tabbox ${overviewbtn.p? 'active' :''}`}>
-                    <pre>Python</pre>
+                <div class={`tabbox ${overviewbtn.p? 'active' :''}`}>
+                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                        <ItemBtn 
+                        Value={'Python'}
+                        btn3click={btn3click}
+                        handleBtn3Click={handleBtn3Click}/>
+                    </div>
                 </div>
             </div>
         }

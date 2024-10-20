@@ -121,11 +121,20 @@
     
 }
 
+.prebgcl{
+    background-color: #f1f3f4;
+    overflow-x: auto;
+
+    &.dark{
+        background-color: #283142;
+    }
+}
+
+
 .icon {
     font-family: 'Icons', sans-serif;
     color:#5f6368;
-    font-size: 24px;
-    
+    font-size: 24px;   
 }
 
 @font-face {
@@ -133,7 +142,7 @@
     font-style: normal;
     font-weight: 400;
     font-display: block;
-    src: url(../Image/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+    src: url(../Image/Icon.woff2) format('woff2');
 }
 
 .navhide{

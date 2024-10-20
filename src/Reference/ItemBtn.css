@@ -1,0 +1,125 @@
+.icon3 {
+    font-family: 'Icons3', sans-serif;
+    color:black;
+    font-size: 18px;   
+    border: 0px;
+    border-radius:70px 70px 70px 70px;
+    background-color: rgba(255, 255, 255, 0);
+    &.tag{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 1px 5px;
+    }
+
+    &.tag:hover{
+        background-color: #f1f8ff;
+    }
+}
+
+.icon3:hover{
+    color:gray;
+}
+
+.icon3dark {
+    font-family: 'Icons3', sans-serif;
+    color:gray;
+    font-size: 18px;   
+    border: 0px;
+    border-radius:70px 70px 70px 70px;
+    background-color: rgba(255, 255, 255, 0);
+    &.tag{
+        box-shadow: rgba(231, 230, 230, 0.35) 0px 1px 5px;
+    }
+
+    &.tag:hover{
+        background-color: #2e3543;
+    }
+
+}
+
+.icon3dark:hover{
+    color:white;
+}
+
+
+@font-face {
+    font-family: 'Icons3';
+    font-style: normal;
+    font-weight: 100 700;
+    font-display: block;
+    src: url(../Image/Icon2.woff2) format('woff2');
+}
+
+
+
+.btn3loc{
+    position: relative;
+    top: 5px;
+    left: calc(100% - 80px);
+    width: 60px;
+}
+
+.grid3{
+    display: grid;
+    height: auto;
+    grid-template-columns: 30px 30px;
+    grid-template-rows: 30px;
+    align-items: center;
+
+}
+
+.grid4{
+    display: grid;
+    height: auto;
+    grid-template-columns: 30px auto;
+    grid-template-rows: 30px;
+    align-items: center;
+
+}
+
+.btn3show{
+    display: block;
+    position: absolute;
+    align-items: center;
+    background-color: #f1f3f4;
+    white-space: nowrap;
+    left: calc(100vw - 250px);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 1px 5px;
+
+    &.dark{
+        background-color: #283142;
+    }
+
+    &.dark:hover{
+        color: white;
+        background-color: #313949;
+    }
+}
+
+.btn3show:hover{
+    background-color: #f1f8ff;
+}
+
+.btn3hide{
+    display: none;
+}
+
+.btn3text{
+    font-size:12px;
+    padding-right:8px;
+    color: black;
+    &.dark{
+        color: gray;
+    }
+}
+
+.pretext{
+    color: black;
+    &.dark{
+        color: white;
+    }
+}
+
+@media (min-width: 992px){
+    .btn3show{
+        left: calc(100vw - 435px);
+    }
+}
