@@ -85,7 +85,7 @@ function AppDev() {
                   <li class="nav-item">
                     <Link
                       class="nav-link"
-                      to="/reference/rest/auth/signup"
+                      to="/reference/rest/v2/auth/signup"
                       routerLinkActive="router-link-active"
                       onClick={(e) => setisReference(true,e)}
                       >reference
@@ -136,9 +136,10 @@ function AppDev() {
       :
       <Routes>
         <Route path="/reference" element={<Reference />}></Route>
-        <Route path="/reference/:tag" element={<Reference />}></Route>
-        <Route path="/reference/:tag/:name" element={<Reference />}></Route>
-        <Route path="/reference/:tag/:name/:value" element={<Reference />}></Route>
+        <Route path="/reference/:ref1" element={<Reference />}></Route>
+        <Route path="/reference/:ref1/:ref2" element={<Reference />}></Route>
+        <Route path="/reference/:ref1/:ref2/:ref3" element={<Reference />}></Route>
+        <Route path="/reference/:ref1/:ref2/:ref3/:ref4" element={<Reference />}></Route>
       </Routes>
       }
     </Fragment>

@@ -203,6 +203,10 @@
     padding-left: 48px;
 }
 
+.tpl3{
+    padding-left: 72px;
+}
+
 .grid2:hover{
     background-color: #f1f3f4;
     border-radius: 0 12px 12px 0;
@@ -214,6 +218,11 @@
 }
 
 .tpl2:hover {
+    background-color: #f1f3f4;
+    border-radius: 0 12px 12px 0;
+}
+
+.tpl3:hover {
     background-color: #f1f3f4;
     border-radius: 0 12px 12px 0;
 }
@@ -254,6 +263,18 @@ ul{
 }
 
 .tpl2.onpage:hover{
+    background-color:#ECF5FF;
+    border-radius: 0 12px 12px 0;
+    color:#0080FF;
+}
+
+.tpl3.onpage{
+    background-color:#ECF5FF;
+    border-radius: 0 12px 12px 0;
+    color:#004B97;
+}
+
+.tpl3.onpage:hover{
     background-color:#ECF5FF;
     border-radius: 0 12px 12px 0;
     color:#0080FF;
