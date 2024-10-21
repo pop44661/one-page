@@ -68,12 +68,7 @@ class Content {
 
 const Reference = () => {
     
-    const [isMouseEnter, setisMouseEnter] = useState(false);
-    const handleMouseEnterLeave = () => {
-        if(!isMouseClick){
-            setisMouseEnter(!isMouseEnter)
-        }
-    }
+    const [isResponse, setisResponse] = useState(false);
 
     const [btn3click,setbtn3click] = useState(false)
     const handleBtn3Click = () => {
@@ -1893,17 +1888,17 @@ const Reference = () => {
             }
         }
 
+        setisResponse(true)
+
         axios.post(domain[Params.ref2] + apicontent[Params.ref2][Params.ref3][Params.ref4].api,data,header)
         .then(
             (response) => {
                 console.log(response)
                 try{
                     if(!JSON.parse(response.data).err){
-                        alert(`success`)
                         setresponsemsg(JSON.parse(response.data))
                     }
                     else{
-                        alert(`error`)
                         setresponsemsg(JSON.parse(response.data))
                     }
 
@@ -1957,7 +1952,6 @@ const Reference = () => {
                 {isMouseClick?
                   <button 
                   class="btn2type1"
-                  style={isMouseEnter? {'padding-left': '20px'} :{'padding-left': '0px'}} 
                   onClick={handleMouseClick}
                   collapsed="">
                       <span class="icon">chevron_right</span>
@@ -1965,9 +1959,6 @@ const Reference = () => {
                 :
                   <button 
                   class="btn1type1"
-                  style={isMouseEnter? {'padding-left': '0px'} :{'padding-left': '20px'}} 
-                  onMouseEnter={handleMouseEnterLeave}
-                  onMouseLeave={handleMouseEnterLeave}
                   onClick={handleMouseClick}
                   collapsed="">
                       <span class="icon">chevron_right</span>
@@ -2020,17 +2011,36 @@ const Reference = () => {
                             <button 
                             type="button" 
                             class="btn btn-primary" 
-                            style={{'left': '85px','position': 'relative'}} 
+                            style={{'left': 'calc(100% - 200px)','position': 'relative'}} 
                             onClick={Execute}
                             >
                                 Execute
                             </button>
-                            <div>
-                                <pre class='word'>
-                                    {JSON.stringify(responsemsg,null,2)}
-                                </pre>
-                            </div>
                             </form>
+                            {isResponse?
+                                <div style={{ padding: '20px','box-shadow': 'rgba(0, 0, 0, 0.35) 0px 1px 5px'}}>
+                                    <div 
+                                    style={{ background: 'red', padding: '10px',height:'auto', borderRadius: '5px 5px 0px 0px' }}>
+                                        <span style={{ color:'white',fontWeight:'bold'}}>Response</span>
+                                        <button 
+                                        type="button" 
+                                        class="btn-close" 
+                                        aria-label="Close"
+                                        onClick={(e) => setisResponse(false)}
+                                        collapsed=""
+                                        style={{ position: 'relative', left: 'calc(100% - 92px)'}}>
+                                        </button>
+                                    </div>
+                                    <pre
+                                    class='word' 
+                                    style={{ background: '#f4f4f4', padding: '10px', borderRadius: '0px 0px 5px 5px'}}>
+                                        {JSON.stringify(responsemsg, null, 2)}
+                                    </pre>
+                                </div>
+                            :
+                            <></>
+                            }
+                            
                         </div>
                         :
                         <></>

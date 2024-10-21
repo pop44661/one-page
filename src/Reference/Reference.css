@@ -100,6 +100,10 @@
     
 }
 
+.btn1type1:hover {
+    padding-left: 20px
+}
+
 .btn2type1 {
     align-items: center;
     border: 0;
@@ -183,16 +187,39 @@
     position: fixed;
     top: 68.8px;
     right: 0;
-    width: 300px;
+    width: 380px;
     height: calc(100vh - 68.8px);
     z-index: 0;
+
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-button {
+        background: transparent;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track-piece {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.1);
+        bottom: 1px solid;
+    }
+
+    &::-webkit-scrollbar-track {
+        box-shadow: transparent;
+    }
 }
 
 .closebtn{
     position: relative;
     z-index: 1;
     top:5px;
-    left: 200px;
+    left: calc(100% - 25px);
 }
 
 .tpl1{
