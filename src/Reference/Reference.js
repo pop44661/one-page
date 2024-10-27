@@ -1,5 +1,3 @@
-import './Reference.css';
-
 import React, {
   Fragment,
   useEffect,
@@ -14,6 +12,7 @@ import {
 
 import ItemBtn from './ItemBtn';
 import JsonEditor from './JsonEditor';
+import styles from './Reference.module.css';
 
 class Pagelist {
     name = '';
@@ -1258,7 +1257,7 @@ const Reference = () => {
         const processRequestData = (requestData) => {
             let result = [];
             for (const [key, value] of Object.entries(requestData)) {
-                let v = { ...value };  // 创建副本，避免直接修改原数据
+                let v = { ...value };  
                 if (v.type === 'file') {
                     v.example = [new File([""], '')];
                 } else if (v.type === 'json') {
@@ -1376,14 +1375,14 @@ const Reference = () => {
                 let b=c;
                 c+=`/${name}`;
                 let h=<div>
-                        <div class={`grid2 tpl${n} me-3`} onClick={(e) => handlepagestatue(e,list)}>
-                            <Link class={`${list.statue ? 'trun' : ' '} icon2 dropdown-item`}>chevron_right</Link>
+                        <div className={`${styles.grid2} ${styles[`tpl${n}`]} me-3`} onClick={(e) => handlepagestatue(e,list)}>
+                            <Link className={`${list.statue ? styles.trun : ' '} ${styles.icon2} dropdown-item`}>chevron_right</Link>
                             <Link
-                                class="dropdown-item"
+                                className="dropdown-item"
                             >{list.name}
                             </Link>
                         </div>
-                        <ul class={`${list.statue ? 'navshow' : 'navhide'}`}>
+                        <ul className={`${list.statue ? styles.navshow : styles.navhide}`}>
                             <div>
                                 {handlepagelist(list.value,c,n)}
                             </div>
@@ -1395,9 +1394,9 @@ const Reference = () => {
             else if(list.type==='link'){
                 let b=c;
                 c+=`/${name}`;
-                let h =<div class='me-3'>
+                let h =<div className='me-3'>
                         <Link 
-                        class={`dropdown-item tpl${n} ${list.statue ? 'onpage':''}`}
+                        className={`dropdown-item ${styles[`tpl${n}`]} ${list.statue ? styles.onpage:''}`}
                         onClick={(e) => handlepagestatue(e,list)} 
                         to={`/reference${c}`}>
                             {list.name}
@@ -1416,14 +1415,14 @@ const Reference = () => {
 
     const handledescription = (value) => {
         let h = value.map((list) =>
-            <td class='word'>{apicontent[Params.ref2][Params.ref3][Params.ref4].description}</td>
+            <td className={styles.word}>{apicontent[Params.ref2][Params.ref3][Params.ref4].description}</td>
         )
         return h
     }
 
     const handlehttp = (value) => {
         let h = value.map((list) =>
-            <td class='word'>{`${apicontent[Params.ref2][Params.ref3][Params.ref4].method}    ${domain[Params.ref2]}${apicontent[Params.ref2][Params.ref3][Params.ref4].api}`}</td>
+            <td className={styles.word}>{`${apicontent[Params.ref2][Params.ref3][Params.ref4].method}    ${domain[Params.ref2]}${apicontent[Params.ref2][Params.ref3][Params.ref4].api}`}</td>
         )
         return h
     }
@@ -1438,7 +1437,15 @@ const Reference = () => {
         
         let h =<></>
         h = value.map((list) =>
-            <td><pre class='word'>{JSON.stringify(json,null,2)}</pre></td>
+            
+            <td>
+                <div className={`${styles.prebgcl} ${btn3click? styles.dark:''} p-3`}>
+                <ItemBtn 
+                Value={JSON.stringify(json,null,2)}
+                btn3click={btn3click}
+                handleBtn3Click={handleBtn3Click}/>
+                </div>
+            </td>
         )
         
         return h
@@ -1455,9 +1462,9 @@ const Reference = () => {
         let h=<></>
         h = l.map((list) =>
             <tr>
-                <td class='word'>{apicontent[Params.ref2][Params.ref3][Params.ref4][name][list].key}</td>
-                <td class='word'>{apicontent[Params.ref2][Params.ref3][Params.ref4][name][list].type}</td>
-                <td class='word'>{apicontent[Params.ref2][Params.ref3][Params.ref4][name][list].description}</td>
+                <td className={styles.word}>{apicontent[Params.ref2][Params.ref3][Params.ref4][name][list].key}</td>
+                <td className={styles.word}>{apicontent[Params.ref2][Params.ref3][Params.ref4][name][list].type}</td>
+                <td className={styles.word}>{apicontent[Params.ref2][Params.ref3][Params.ref4][name][list].description}</td>
             </tr>
         )
         
@@ -1500,7 +1507,7 @@ const Reference = () => {
         if(Params.ref4!==undefined){
             for(const element of spy[Params.ref1]){
                 if(element === value){
-                    h=<div style={{'font-weight':'bold'}}><div class='pt-5 pb-4'></div><div>{value}</div></div>
+                    h=<div style={{'font-weight':'bold'}}><div className='pt-5 pb-4'></div><div>{value}</div></div>
                     return h
                 }
                 else{
@@ -1511,11 +1518,11 @@ const Reference = () => {
         else if(Params.ref1!==undefined){
             for(const element of spy[Params.ref1]){
                 if(element === value){
-                    h=<div class='mt-5' style={{'font-weight':'bold'}}><div class='pt-5 pb-4'></div><div>{value}</div></div>
+                    h=<div className='mt-5' style={{'font-weight':'bold'}}><div className='pt-5 pb-4'></div><div>{value}</div></div>
                     return h
                 }
                 else{
-                    h=<div class='mt-5' style={{'font-weight':'bold'}}>{value}</div>
+                    h=<div className='mt-5' style={{'font-weight':'bold'}}>{value}</div>
                 }
             }
         }
@@ -1548,58 +1555,58 @@ const Reference = () => {
             </div>
         }
         else if(value===1){
-            h=<div class='mt-3'>
-                <div class='tab py-2 px-2 '>
-                    <button class={`${overviewbtn.c? 'active' :''}`} onClick={(e) => handleoverviewbtn('c')}>C++</button>
-                    <button class={`${overviewbtn.n? 'active' :''}`} onClick={(e) =>handleoverviewbtn('n')}>Node.js</button>
-                    <button class={`${overviewbtn.p? 'active' :''}`} onClick={(e) =>handleoverviewbtn('p')}>Python</button>
+            h=<div className='mt-3'>
+                <div className={`${styles.tab} py-2 px-2`}>
+                    <button className={`${overviewbtn.c? styles.active :''}`} onClick={(e) => handleoverviewbtn('c')}>C++</button>
+                    <button className={`${overviewbtn.n? styles.active :''}`} onClick={(e) =>handleoverviewbtn('n')}>Node.js</button>
+                    <button className={`${overviewbtn.p? styles.active :''}`} onClick={(e) =>handleoverviewbtn('p')}>Python</button>
                 </div>
                 
-                <div class={`p-3 tabbox ${overviewbtn.c? 'active' :''}`}>
+                <div className={`p-3 ${styles.tabbox} ${overviewbtn.c? styles.active :''}`}>
                     <p>See <span style={{'color':'blue'}}>Setting up a C++ development environment</span>
                     for details about this client library's requirements and install dependencies.</p>
                 </div>
                 
-                <div class={`tabbox ${overviewbtn.n? 'active' :''}`}>
-                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                <div className={`${styles.tabbox} ${overviewbtn.n? styles.active :''}`}>
+                    <div className={`${styles.prebgcl} ${btn3click? styles.dark:''} p-3`}>
                         <ItemBtn 
                         Value={'npm install --save @google-cloud/cloudbuild'}
                         btn3click={btn3click}
                         handleBtn3Click={handleBtn3Click}/>
                     </div>
-                    <div class='px-3'>
+                    <div className='px-3'>
                         <p>For more information, see <span style={{'color':'blue'}}>Setting Up a Node.js Development Environment</span>.</p>
                     </div>
                 </div>
                 
-                <div class={`tabbox ${overviewbtn.p? 'active' :''}`}>
-                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                <div className={`${styles.tabbox} ${overviewbtn.p? styles.active :''}`}>
+                    <div className={`${styles.prebgcl} ${btn3click? styles.dark:''} p-3`}>
                         <ItemBtn 
                         Value={'pip install --upgrade google-cloud-build'}
                         btn3click={btn3click}
                         handleBtn3Click={handleBtn3Click}/>
                     </div>
-                    <div class='px-3'>
+                    <div className='px-3'>
                         <p>For more information, see <span style={{'color':'blue'}}>Setting Up a Python Development Environment</span>.</p>
                     </div>
                 </div>
             </div>
         }
         else if(value===2){
-            h=<div  class='mt-3'>
+            h=<div  className='mt-3'>
                 <p>To authenticate calls to Google Cloud APIs, client libraries support Application Default Credentials (ADC); the libraries look for credentials in a set of defined locations and use those credentials to authenticate requests to the API. With ADC, you can make credentials available to your application in a variety of environments, such as local development or production, without needing to modify your application code.
                 For production environments, the way you set up ADC depends on the service and context. For more information, see Set up Application Default Credentials.</p>
                 <p>For a local development environment, you can set up ADC with the credentials that are associated with your Google Account:</p>
                 <ol>
                     <li><p>Install the Google Cloud CLI, then initialize it by running the following command:</p></li>
-                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                    <div className={`${styles.prebgcl} ${btn3click? styles.dark:''} p-3`}>
                         <ItemBtn 
                         Value={'gcloud init'}
                         btn3click={btn3click}
                         handleBtn3Click={handleBtn3Click}/>
                     </div>
                     <li><p>If you're using a local shell, then create local authentication credentials for your user account:</p></li>
-                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                    <div className={`${styles.prebgcl} ${btn3click? styles.dark:''} p-3`}>
                         <ItemBtn 
                         Value={'gcloud auth application-default login'}
                         btn3click={btn3click}
@@ -1613,15 +1620,15 @@ const Reference = () => {
             </div>
         }
         else if(value===3){
-            h=<div class='mt-3'>
-                <div class='tab py-2 px-2 '>
-                    <button class={`${overviewbtn.c? 'active' :''}`} onClick={(e) => handleoverviewbtn('c')}>C++</button>
-                    <button class={`${overviewbtn.n? 'active' :''}`} onClick={(e) =>handleoverviewbtn('n')}>Node.js</button>
-                    <button class={`${overviewbtn.p? 'active' :''}`} onClick={(e) =>handleoverviewbtn('p')}>Python</button>
+            h=<div className='mt-3'>
+                <div className={`${styles.tab} py-2 px-2`}>
+                    <button className={`${overviewbtn.c? styles.active :''}`} onClick={(e) => handleoverviewbtn('c')}>C++</button>
+                    <button className={`${overviewbtn.n? styles.active :''}`} onClick={(e) =>handleoverviewbtn('n')}>Node.js</button>
+                    <button className={`${overviewbtn.p? styles.active :''}`} onClick={(e) =>handleoverviewbtn('p')}>Python</button>
                 </div>
                 
-                <div class={`tabbox ${overviewbtn.c? 'active' :''}`}>
-                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                <div className={`${styles.tabbox} ${overviewbtn.c? styles.active :''}`}>
+                    <div className={`${styles.prebgcl} ${btn3click? styles.dark:''} p-3`}>
                         <ItemBtn 
                         Value={'C++'}
                         btn3click={btn3click}
@@ -1629,8 +1636,8 @@ const Reference = () => {
                     </div>
                 </div>
                 
-                <div class={`tabbox ${overviewbtn.n? 'active' :''}`}>
-                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                <div className={`${styles.tabbox} ${overviewbtn.n? styles.active :''}`}>
+                    <div className={`${styles.prebgcl} ${btn3click? styles.dark:''} p-3`}>
                         <ItemBtn 
                         Value={'Node.js'}
                         btn3click={btn3click}
@@ -1638,8 +1645,8 @@ const Reference = () => {
                     </div>
                 </div>
                 
-                <div class={`tabbox ${overviewbtn.p? 'active' :''}`}>
-                    <div class={`prebgcl ${btn3click? 'dark':''} p-3`}>
+                <div className={`${styles.tabbox} ${overviewbtn.p? styles.active :''}`}>
+                    <div className={`${styles.prebgcl} ${btn3click? styles.dark:''} p-3`}>
                         <ItemBtn 
                         Value={'Python'}
                         btn3click={btn3click}
@@ -1649,14 +1656,14 @@ const Reference = () => {
             </div>
         }
         else if(value===4){
-            h=<div class='mt-3'>
-                <div class='tab py-2 px-2 '>
-                    <button class={`${overviewbtn.c? 'active' :''}`} onClick={(e) => handleoverviewbtn('c')}>C++</button>
-                    <button class={`${overviewbtn.n? 'active' :''}`} onClick={(e) =>handleoverviewbtn('n')}>Node.js</button>
-                    <button class={`${overviewbtn.p? 'active' :''}`} onClick={(e) =>handleoverviewbtn('p')}>Python</button>
+            h=<div className='mt-3'>
+                <div className={`${styles.tab} py-2 px-2`}>
+                    <button className={`${overviewbtn.c? styles.active :''}`} onClick={(e) => handleoverviewbtn('c')}>C++</button>
+                    <button className={`${overviewbtn.n? styles.active :''}`} onClick={(e) =>handleoverviewbtn('n')}>Node.js</button>
+                    <button className={`${overviewbtn.p? styles.active :''}`} onClick={(e) =>handleoverviewbtn('p')}>Python</button>
                 </div>
                 
-                <div class={`p-3 tabbox ${overviewbtn.c? 'active' :''}`}>
+                <div className={`p-3 ${styles.tabbox} ${overviewbtn.c? styles.active :''}`}>
                     <p>The following list contains links to more resources related to the client library for C++:</p>
                     <li><span style={{'color':'blue'}}>API reference</span></li>
                     <li><span style={{'color':'blue'}}>Client libraries best practices</span></li>
@@ -1665,7 +1672,7 @@ const Reference = () => {
                     <li><span style={{'color':'blue'}}>Source code</span></li>
                 </div>
                 
-                <div class={`p-3 tabbox ${overviewbtn.n? 'active' :''}`}>
+                <div className={`p-3 ${styles.tabbox} ${overviewbtn.n? styles.active :''}`}>
                     <p>The following list contains links to more resources related to the client library for Node.js:</p>
                     <li><span style={{'color':'blue'}}>API reference</span></li>
                     <li><span style={{'color':'blue'}}>Client libraries best practices</span></li>
@@ -1674,7 +1681,7 @@ const Reference = () => {
                     <li><span style={{'color':'blue'}}>Source code</span></li>
                 </div>
                 
-                <div class={`p-3 tabbox ${overviewbtn.p? 'active' :''}`}>
+                <div className={`p-3 ${styles.tabbox} ${overviewbtn.p? styles.active :''}`}>
                     <p>The following list contains links to more resources related to the client library for Python</p>
                     <li><span style={{'color':'blue'}}>API reference</span></li>
                     <li><span style={{'color':'blue'}}>Client libraries best practices</span></li>
@@ -1690,8 +1697,8 @@ const Reference = () => {
     let html2 =tag[Params.ref1].map((list,index) => {
         let h=<></>
         if(Params.ref4!==undefined||Params.ref3!==undefined){
-            h=<div id={`${list[0]}`} class="pt-3">
-                <table class="table table-striped mt-5">
+            h=<div id={`${list[0]}`} className="pt-3">
+                <table className="table table-striped mt-5">
                 <thead>
                     <tr>
                         {handlethead(list)}
@@ -1704,7 +1711,7 @@ const Reference = () => {
             </div>
         }
         else  if(Params.ref2!==undefined){
-            h=<div id={`${list[0]}`} class="pt-4">
+            h=<div id={`${list[0]}`} className="pt-4">
             {handlespyid(list[0])}
             {handleclientoverview(index)}
             
@@ -1722,7 +1729,7 @@ const Reference = () => {
         <Link
             style={{'font-size': '14px'}}
             onClick={(e) => handlescrollspy(e)}
-            class={` dropdown-item pt-2 item ${list.statue ? 'onspy':''}`}
+            className={` dropdown-item pt-2 ${styles.item} ${list.statue ? styles.onspy:''}`}
         >
             {list.name}
         </Link>
@@ -1774,12 +1781,12 @@ const Reference = () => {
         let h=<></>
         
         if(value.type==='file'){
-            h=<div class="mb-3">
-                <label class="form-label">{value.key}</label>
+            h=<div className="mb-3">
+                <label className="form-label">{value.key}</label>
                 <input
                 name={value.key}
                 type={value.type}
-                class="form-control"
+                className="form-control"
                 multiple="true"
                 accept={accept}
                 onChange={(e) => onSelected(e)}
@@ -1787,18 +1794,18 @@ const Reference = () => {
             </div>
         }
         else if(value.type==='json'){
-            h=<div class="mb-3">
-                <label class="form-label">{value.key}</label>
+            h=<div className="mb-3">
+                <label className="form-label">{value.key}</label>
                 <JsonEditor value={value.example} KEY={value.key} handlejsonvalue={handlejsonvalue} />
             </div>
         }
         else if(value.key==='token'||value.key==='access_token'){
-            h=<div class="mb-3">
-                <label class="form-label">{value.key}</label>
+            h=<div className="mb-3">
+                <label className="form-label">{value.key}</label>
                 <textarea
                 name={value.key}
                 type={value.type}
-                class="form-control"
+                className="form-control"
                 placeholder={value.key}
                 value={value.example}
                 style={{'field-sizing': 'content'}}
@@ -1807,12 +1814,12 @@ const Reference = () => {
             </div>
         }
         else{
-            h=<div class="mb-3">
-                <label class="form-label">{value.key}</label>
+            h=<div className="mb-3">
+                <label className="form-label">{value.key}</label>
                 <input
                 name={value.key}
                 type={value.type}
-                class="form-control"
+                className="form-control"
                 placeholder={value.key}
                 value={value.example}
                 onChange={(e) => changeInputBox(e)}
@@ -1939,11 +1946,11 @@ const Reference = () => {
 
     return(
         <Fragment>
-            <div class={`grid ${isMouseClick? 'active' : ''}`}>
-                <div class={`${isMouseClick? 'navback' : ''}`}>
-                    <div class={`nav ${isMouseClick? 'active' : ''}`}>
+            <div className={`${styles.grid} ${isMouseClick? styles.active : ''}`}>
+                <div className={`${isMouseClick? styles.navback : ''}`}>
+                    <div className={`${styles.nav} ${isMouseClick? styles.active : ''}`}>
                     <nav style={{'display':`${isMouseClick? 'block':'none'}`}}>
-                        <div class='mt-3 mb-5'>
+                        <div className='mt-3 mb-5'>
                             {html1}
                         </div>
                     </nav>
@@ -1951,32 +1958,32 @@ const Reference = () => {
                 </div>
                 {isMouseClick?
                   <button 
-                  class="btn2type1"
+                  className={styles.btn2type1}
                   onClick={handleMouseClick}
                   collapsed="">
-                      <span class="icon">chevron_right</span>
+                      <span className={styles.icon}>chevron_right</span>
                   </button>
                 :
                   <button 
-                  class="btn1type1"
+                  className={styles.btn1type1}
                   onClick={handleMouseClick}
                   collapsed="">
-                      <span class="icon">chevron_right</span>
+                      <span className={styles.icon}>chevron_right</span>
                   </button>
                 }
                 
-                <div class="main1">
-                    <div class="main2">
-                        <div class="main3">
-                            <div class="fs-4 word">{claim}</div>
-                            <div class='spy'>
+                <div className={styles.main1}>
+                    <div className={styles.main2}>
+                        <div className={styles.main3}>
+                            <div className={`${styles.word} fs-4`}>{claim}</div>
+                            <div className={styles.spy}>
                                 <div style={{'padding':'10px','border-left': 'thick double #32a1ce'}}>
-                                    <div class='fw-bold' style={{'font-size': '16px'}}>On this page</div>
+                                    <div className='fw-bold' style={{'font-size': '16px'}}>On this page</div>
                                     {html3}
                                     {Params.ref3!==undefined||Params.ref4!==undefined ?
                                     <button
                                         type="button" 
-                                        class="btn btn-primary mt-3"
+                                        className="btn btn-primary mt-3"
                                         onClick={handleCloseBtn}
                                     >
                                         Try it!
@@ -1994,14 +2001,14 @@ const Reference = () => {
                 <div style={{'width':'fit-content'}}>
 
                     {Params.ref3!==undefined||Params.ref4!==undefined?
-                        <div class={`${isCloseBtn? '':'show'} dropdown-menu dropdown-menu-end input`} style={{'overflow-y': 'auto'}}>
-                            <form  class="px-4 py-3">
+                        <div className={`${isCloseBtn? '':"show"} dropdown-menu dropdown-menu-end ${styles.input}`} style={{'overflow-y': 'auto'}}>
+                            <form  className="px-4 py-3">
                             {isCloseBtn?
                                 <></>
                                 :
                                 <button 
                                 type="button" 
-                                class="btn-close closebtn active" 
+                                className={`btn-close ${styles.closebtn} ${styles.active}`} 
                                 aria-label="Close"
                                 onClick={handleCloseBtn}
                                 collapsed="">
@@ -2010,7 +2017,7 @@ const Reference = () => {
                             {html4}
                             <button 
                             type="button" 
-                            class="btn btn-primary" 
+                            className="btn btn-primary" 
                             style={{'left': 'calc(100% - 200px)','position': 'relative'}} 
                             onClick={Execute}
                             >
@@ -2024,7 +2031,7 @@ const Reference = () => {
                                         <span style={{ color:'white',fontWeight:'bold'}}>Response</span>
                                         <button 
                                         type="button" 
-                                        class="btn-close" 
+                                        className="btn-close" 
                                         aria-label="Close"
                                         onClick={(e) => setisResponse(false)}
                                         collapsed=""
@@ -2032,7 +2039,7 @@ const Reference = () => {
                                         </button>
                                     </div>
                                     <pre
-                                    class='word' 
+                                    className={styles.word} 
                                     style={{ background: '#f4f4f4', padding: '10px', borderRadius: '0px 0px 5px 5px'}}>
                                         {JSON.stringify(responsemsg, null, 2)}
                                     </pre>

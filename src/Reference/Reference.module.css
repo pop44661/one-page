@@ -73,7 +73,7 @@
 .spy{
     position: fixed;
     top: 68.8px;
-    padding-top: 20px;
+    padding-top: 40px;
     padding-right: 20px;
     padding-bottom: 20px;
     width: 160px;
@@ -96,7 +96,7 @@
     padding: 0;
     position: fixed;
     transform: translateX(-8px);
-    z-index: 1004;
+    z-index: 50;
     
 }
 
@@ -120,7 +120,7 @@
     padding: 0;
     position: fixed;
     transform: translateX(-8px);
-    z-index: 1004;
+    z-index: 50;
     transform: rotate(180deg);
     
 }
@@ -183,7 +183,7 @@
     white-space: pre-wrap;
 }
 
-.dropdown-menu.input{
+.input{
     position: fixed;
     top: 68.8px;
     right: 0;
@@ -253,11 +253,6 @@
     background-color: #f1f3f4;
     border-radius: 0 12px 12px 0;
 }
-
-ul{
-    padding:0;
-}
-
 
 .item:hover{
     color: #0080FF;
@@ -350,30 +345,40 @@ ul{
     background-color: #fff;
 }
 
-textarea{
+:global(ul){
+    padding:0;
+}
+
+:global(textarea){
     resize: none;
 }
 
-.jsoneditor{
+:global(.jsoneditor){
     border-radius:10px;
 }
 
-.jsoneditor-statusbar{
+:global(.jsoneditor-statusbar){
     border-radius:0px 0px 10px 10px;
 }
 
-.jsoneditor-menu{
+:global(.jsoneditor-menu){
     border-radius:9px 9px 0px 0px;
 }
 
-.jsoneditor-menu a{
+:global(.jsoneditor-menu a){
     display: none;
 }
 
-.jsoneditor-menu button{
-    &.jsoneditor-repair{
-        display: none;
-    }
+:global(.jsoneditor-repair){
+    display: none;
+}
+
+:global(.jsoneditor-transform){
+    display: none;
+}
+
+:global(.jsoneditor-sort){
+    display: none;
 }
 
 @media (max-width: 992px){
@@ -413,14 +418,14 @@ textarea{
         display: block;
         height: calc(100vh);
         overflow-y: auto;
-        z-index: 20;
+        z-index: 10;
     }
     
     .spy{
         position:static;
-        padding-top: 20px;
-        padding-right: 20px;
-        padding-bottom: 20px;   
+        padding-top: 40px;
+        padding-left: 20px;
+        width: 100%;  
     }
 
     .navback{
@@ -430,11 +435,7 @@ textarea{
         background-color: rgba(0, 0, 0, .6);
         display: block;
         height: calc(100vh);
-        z-index: 19;
-    }
-
-    .mmm{
-        margin:200px;
+        z-index: 9;
     }
     
 }

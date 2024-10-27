@@ -1,24 +1,29 @@
-import './ItemBtn.css';
-
 import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
+
+import styles from './ItemBtn.module.css';
 
 const ItemBtn = (props) => {
     const {Value,btn3click,handleBtn3Click}=props
 
     const [show,setshow]=useState(false)
-
+    const [visible, setVisible] = useState(false);
 
     const handleCopy = () => {
         navigator.clipboard.writeText(Value) 
-          .then(() => {
-            console.log('复制成功！'); 
-          })
+        .then(() => {
+            setVisible(true)
+            console.log('復制成功！'); 
+        })
           .catch(err => {
-            console.error('复制失败:', err); 
-          });
-      };
+            console.error('復制失敗!', err); 
+        });
+
+        setTimeout(() => {
+            setVisible(false);
+        }, 1500);
+    };
 
     const click = () => {
         setshow(!show)
@@ -27,23 +32,38 @@ const ItemBtn = (props) => {
 
     return( 
         <>
-            <div class='btn3loc'>
-                <div class='grid3'>
-                    <button class={`icon3${btn3click?'dark':''}`} onClick={handleCopy}>content_copy</button>
-                    <button class={`icon3${btn3click?'dark':''} tag`} onClick={(e) => setshow(!show)}>more_vert</button>
+            {visible && (
+                <div style={{
+                position: 'fixed',
+                top: 'calc(100vh - 60px)',
+                left: '60px',
+                backgroundColor: '#3e3e3e',
+                color: '#f1f3f4',
+                padding: '10px',
+                borderRadius: '5px',
+                zIndex: '6',
+                fontWeight:'bold'
+                }}>
+                複製成功！
+                </div>
+            )}
+            <div className={styles.btn3loc}>
+                <div className={styles.grid3}>
+                    <button className={`${styles[`icon3${btn3click?'dark':''}`]}`} onClick={handleCopy}>content_copy</button>
+                    <button className={`${styles[`icon3${btn3click?'dark':''}`]} ${styles.tag}`} onClick={(e) => setshow(!show)}>more_vert</button>
                 </div>
             </div>
-            <div class='mt-2'></div>
-            <div class={`btn3${show?'show':'hide'} ${btn3click?'dark':''}`}>
-                <div class='grid4'>
-                    <button class={`icon3${btn3click?'dark':''}`} onClick={click}>brightness_medium</button>
+            <div className='mt-2'></div>
+            <div className={`${styles[`btn3${show?'show':'hide'}`]} ${btn3click?styles.dark:''}`}>
+                <div className={styles.grid4}>
+                    <button className={`${styles[`icon3${btn3click?'dark':''}`]}`} onClick={click}>brightness_medium</button>
                     <Link 
-                    class={`dropdown-item btn3text ${btn3click?'dark':''}`}
+                    className={`dropdown-item ${styles.btn3text} ${btn3click?styles.dark:''}`}
                     onClick={click}
                     >Dark code theme</Link>
                 </div>
             </div>
-            <pre class={`pretext ${btn3click?'dark':''}`}>{Value}</pre>
+            <pre className={`${styles.pretext} ${btn3click?styles.dark:''}`}>{Value}</pre>
         </>    
     )
 };

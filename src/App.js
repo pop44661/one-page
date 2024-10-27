@@ -3,7 +3,6 @@ import '../node_modules/bootstrap/dist/css/bootstrap.css';
 
 import React, {
   Fragment,
-  useEffect,
   useState,
 } from 'react';
 
@@ -13,9 +12,9 @@ import {
   Navigate,
   Route,
   Routes,
-  useLocation,
 } from 'react-router-dom';
 
+import ImgGeneration from './ImgGeneration/ImgGeneration';
 import Form from './Model-Examples/Form';
 import Page from './Model-Examples/Page';
 import Reference from './Reference/Reference';
@@ -33,17 +32,7 @@ function AppDev() {
   const [isAutheticated,setisAutheticated] = useState(false);
   const handleisAutheticated = (auth) => setisAutheticated(auth)
   
-  let location = useLocation();
-  const [isReference,setisReference] = useState(false); 
-  useEffect(()=>{
-    let l = location.pathname.split('/')
-    if(l[1]==='reference'){
-      setisReference(true)
-    }
-    else{
-      setisReference(false)
-    }
-  },[location])
+  
 
   return (
     <Fragment>
@@ -87,8 +76,15 @@ function AppDev() {
                       class="nav-link"
                       to="/reference/rest/v2/auth/signup"
                       routerLinkActive="router-link-active"
-                      onClick={(e) => setisReference(true,e)}
                       >reference
+                    </Link>
+                  </li>
+                  <li class="nav-item">
+                    <Link
+                      class="nav-link"
+                      to="/imggeneration"
+                      routerLinkActive="router-link-active"
+                      >imggeneration
                     </Link>
                   </li>
                 </ul>
@@ -119,19 +115,18 @@ function AppDev() {
           </nav>
         </div>
       </div>
-      {isAutheticated || isReference ?
-      <></>
-      :
-      <Navigate to="/"></Navigate>
-      }
+      
       {isAutheticated ?
       <Routes>
         <Route path="/model-examples" element={<Page />}></Route>
         <Route path="/model-examples/:model" element={<Form />}></Route>
+        <Route path="/imggeneration" element={<ImgGeneration />}></Route>
         <Route path="/reference" element={<Reference />}></Route>
-        <Route path="/reference/:tag" element={<Reference />}></Route>
-        <Route path="/reference/:tag/:name" element={<Reference />}></Route>
-        <Route path="/reference/:tag/:name/:value" element={<Reference />}></Route>
+        <Route path="/reference/:ref1" element={<Reference />}></Route>
+        <Route path="/reference/:ref1/:ref2" element={<Reference />}></Route>
+        <Route path="/reference/:ref1/:ref2/:ref3" element={<Reference />}></Route>
+        <Route path="/reference/:ref1/:ref2/:ref3/:ref4" element={<Reference />}></Route>
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       :
       <Routes>
@@ -140,6 +135,7 @@ function AppDev() {
         <Route path="/reference/:ref1/:ref2" element={<Reference />}></Route>
         <Route path="/reference/:ref1/:ref2/:ref3" element={<Reference />}></Route>
         <Route path="/reference/:ref1/:ref2/:ref3/:ref4" element={<Reference />}></Route>
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       }
     </Fragment>
