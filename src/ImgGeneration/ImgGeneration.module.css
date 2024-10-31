@@ -1,0 +1,193 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+.page {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center; 
+  margin: 0%;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin: 0%;
+}
+
+.img-fluid {
+  display: block; /* 确保图标是块级元素 */
+  width: 72.8px; /* 设置图标宽度 */
+  height: 72.8px; /* 设置图标高度 */
+}
+
+/* 主容器，宽度为 85%，水平排列并居中 */
+.main-container {
+
+  width: 100%;
+  height: 47%;
+  display: flex;
+  flex-direction: row;  /* 指定水平排列 */
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 10px;
+  padding: 0%;
+  margin: 0%;
+}
+
+/* 表单和图片区域的通用样式，设置为各占一半宽度 */
+.form-container {
+  position: relative; /* 保持绝对定位功能 */
+  width: 50%; /* 根据需要调整宽度 */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  /* background-color: #007bff; */
+  background-color:#ffffff;
+  display: flex;
+  flex-direction: column; /* 垂直排列 */
+  align-items: stretch; /* 将所有元素向左对齐 */
+  justify-content: flex-start; /* 将所有元素向上对齐 */
+  padding: 1.5%  1%;
+  max-height: calc(100vh - 200px);
+
+}
+
+.image-container {
+  display: flex;
+  flex-direction: row;
+  width: 50%;  /* 各占一半空间 */
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: calc(100vh - 200px);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  padding: 0%;
+  margin: 0%;
+  width: 100%;
+}
+
+.form-group-row {
+  display: flex;
+  flex-direction: col;
+  padding: 0%;
+  margin: 0%;
+  background-color: #ffffff;
+  width: 100%;
+  gap: 5%;
+}
+
+
+
+.label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.form-group input[type="text"]{
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+
+
+.height{
+  width: 65%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.width{
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 0;
+} 
+
+.widths{
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+  padding: 0;
+  margin: 0;
+  border-radius: 4px;
+}
+
+.batch_sizes {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  padding: 0;
+  margin: 0;
+  border-radius: 4px;
+}
+
+.batch_size{
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.status{
+  margin-left: 35%;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.btn_submit {
+  width: 48%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.btn{
+  width:48%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 4%;
+}
+
+.image-container .placeholder {
+    font-size: 18px;
+    background-color: rgba(255, 255, 255, 0);
+    cursor: default;
+}
+

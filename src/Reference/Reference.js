@@ -2002,7 +2002,7 @@ const Reference = () => {
 
                     {Params.ref3!==undefined||Params.ref4!==undefined?
                         <div className={`${isCloseBtn? '':"show"} dropdown-menu dropdown-menu-end ${styles.input}`} style={{'overflow-y': 'auto'}}>
-                            <form  className="px-4 py-3">
+                            <form  className={`${styles["form"]} px-4 py-3`}>
                             {isCloseBtn?
                                 <></>
                                 :

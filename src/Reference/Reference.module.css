@@ -345,11 +345,11 @@
     background-color: #fff;
 }
 
-:global(ul){
+.nav :global(ul){
     padding:0;
 }
 
-:global(textarea){
+.form :global(textarea){
     resize: none;
 }
 
