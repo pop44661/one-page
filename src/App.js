@@ -17,6 +17,10 @@ import {
 import ImgGeneration from './ImgGeneration/ImgGeneration';
 import Form from './Model-Examples/Form';
 import Page from './Model-Examples/Page';
+import ModelDetect from './Model/From/ModelDetect';
+import ModelTest from './Model/From/ModelTest';
+import ModelTrain from './Model/From/ModelTrain';
+import ModelPage from './Model/ModelPage';
 import Reference from './Reference/Reference';
 import Signin from './Signin/Signin';
 import Signup from './Signup/Signup';
@@ -87,6 +91,14 @@ function AppDev() {
                       >imggeneration
                     </Link>
                   </li>
+                  <li class="nav-item">
+                    <Link
+                      class="nav-link"
+                      to="/model"
+                      routerLinkActive="router-link-active"
+                      >model
+                    </Link>
+                  </li>
                 </ul>
                 <form class="d-flex" role="search">
                   <input
@@ -121,6 +133,10 @@ function AppDev() {
         <Route path="/model-examples" element={<Page />}></Route>
         <Route path="/model-examples/:model" element={<Form />}></Route>
         <Route path="/imggeneration" element={<ImgGeneration />}></Route>
+        <Route path="/Model" element={<ModelPage />}></Route>
+        <Route path="/model/modeldetect" element={<ModelDetect />}></Route>
+        <Route path="/model/modeltrain" element={<ModelTrain />}></Route>
+        <Route path="/model/modeltest" element={<ModelTest />}></Route>
         <Route path="/reference" element={<Reference />}></Route>
         <Route path="/reference/:ref1" element={<Reference />}></Route>
         <Route path="/reference/:ref1/:ref2" element={<Reference />}></Route>

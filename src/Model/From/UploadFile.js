@@ -1,5 +1,3 @@
-import './Upload-File.css';
-
 import React, {
   Fragment,
   useState,
@@ -31,9 +29,7 @@ const UploadFile = (props) => {
     var accept = '*';
     var numRows = 10;
     var maxPageSize = 4;
-    var {title,url} =props
-    var extraParameters = [props.extraParameters];
-    var [extraParametersMap,setextraParametersMap] = useState(new Map([]))
+    var {uploadfile,tasktype,url,setfilestatus,modelstatus} =props
     var [show,setshow] = useState({
         files:{
             value:new FileInfo()
@@ -127,16 +123,7 @@ const UploadFile = (props) => {
         }
     }
 
-    const onParamChange = (event) => {
-        const element = event.target;
-        let newextraParametersMap = new Map()
-        newextraParametersMap.set(element.name, element.value);
-        setextraParametersMap(newextraParametersMap)
-        console.log(extraParametersMap);
-    }
-
     const handleSelectedFiles = (files) => {
-        
         const newFiles = new DataTransfer();
         
         if (files) {
@@ -149,7 +136,6 @@ const UploadFile = (props) => {
             if (filenames.includes(files[index].name)) {
                 continue;
             }
-            newFiles.items.add(files[index]);
             filenames.push(files[index].name);
         }
 
@@ -201,6 +187,8 @@ const UploadFile = (props) => {
     }
 
     const clear = () => {
+        modelstatus(false)
+        setfilestatus(false)
         filenames = []
         setshow({
             files:{
@@ -227,73 +215,38 @@ const UploadFile = (props) => {
             return;
         }
         setuploading(true);
-        uploadOdTesting(show.files.value,url,extraParametersMap);
+        uploadOdTesting(show.files.value,url);
     }
     
-    // const uploadOdTesting = (files,url,extraParams) => {
-    //     const formData = new FormData();
-    //     formData.append('file', files[0]);
-    //     for (let index = 0; index < files.length; index++) {
-    //       const element = files[index];
-    //       formData.append('file-' + index, element);
-    //     }
-  
-    //     extraParams.forEach((value, key) => {
-    //       formData.append(key, value);
-    //     });
-  
-    //     axios.post(url,formData,{
-    //       headers: {
-    //         'Access-Control-Allow-Origin': '*',
-    //       },
-    //       responseType: 'text',
-    //       reportProgress: true,
-    //       observe: 'events',
-    //     })
-    //     .then(
-    //         (response) => {
-    //         }
-    //     )
-    //     .catch((error) => {
-    //         if (error.response) {
-    //           console.log(error.response);
-    //           console.log("server responded");
-    //         } else if (error.request) {
-    //           console.log("network error");
-    //         } else {
-    //           console.log(error);
-    //         }
-    //     });
-    //   }
-    const uploadOdTesting = (files, url, extraParams) => {
+    const uploadOdTesting = (files, url) => {
         const formData = new FormData();
-        
-        // 添加多個文件
+
         for (let index = 0; index < files.length; index++) {
           const element = files[index];
-          formData.append('file-' + index, element); // 確保每個文件都被正確命名
+          formData.append('file', element); 
         }
-      
-        // 添加額外的參數
-        extraParams.forEach((value, key) => {
-          formData.append(key, value);
-        });
-      
-        // 使用 axios 上傳文件
+        formData.append("task_type", tasktype);
+        formData.append("upload_type", uploadfile)
+
         axios.post(url, formData, {
           headers: {
-            'Content-Type': 'multipart/form-data', // 確保 Content-Type 為 multipart/form-data
-            'Access-Control-Allow-Origin': '*', // CORS 配置
+            'Content-Type': 'multipart/form-data', 
+            'Access-Control-Allow-Origin': '*', 
           },
           responseType: 'text',
         })
         .then(response => {
           console.log("Upload successful:", response);
-          setuploadSuccess(true); // 更新上傳成功狀態
-          setuploading(false);    // 停止上傳狀態
+          console.log(JSON.parse(response.data).err);
+          if(!JSON.parse(response.data).err){
+            setuploadSuccess(true);
+            setfilestatus(true);
+            setuploading(false);
+          }
         })
         .catch(error => {
-          setuploading(false); // 停止上傳狀態
+          setuploading(false);
+          setfilestatus(false); 
           if (error.response) {
             console.log("Server responded with an error:", error.response);
           } else if (error.request) {
@@ -318,14 +271,6 @@ const UploadFile = (props) => {
         </li>
     )
 
-    // let html2 = show.fileInfoList.value.map((list) => 
-    //     <tr>
-    //         <th scope="row">{ list.index }</th>
-    //         <td>{ list.name }</td>
-    //         <td>{typeof(list.size) == 'undefined' ? list.size : list.size.toFixed(3)}</td>
-    //         <td>{ list.type }</td>
-    //     </tr>
-    // )
     let html2 = show.fileInfoList.value.map((list) => 
         <tr key={list.index}>
             <th scope="row">{list.index}</th>
@@ -335,33 +280,13 @@ const UploadFile = (props) => {
         </tr>
     );
     
-    
 
-    let html3 = extraParameters.map((list) => 
-        <div>
-            <div class="col-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default">{list}</span>
-                    <input
-                    name={list}
-                    type="text"
-                    class="form-control"
-                    accept={accept}
-                    onChange={(e) => onParamChange(e)}
-                    />
-                </div>
-            </div>
-        </div>
-    )
     
     return(
         <Fragment>
             <div class="container-fluid m-0 p-0">
                 {show.showingPageList.value.length>0  ? 
                 <div class="row justify-content-end">
-                    <div class="col-12 col-md-4 align-self-centers">
-                    <span>{title}</span>
-                    </div>
                     <div class="col-12 col-md-6">
                         {show.pageList.value.length > 1 ?
                         <nav aria-label="Page navigation example" >
@@ -442,7 +367,8 @@ const UploadFile = (props) => {
                                 onClick={upload}
                                 disabled={uploading || uploadSuccess}
                             >
-                            { uploadSuccess ? "Success" : "Upload" }
+                            { uploadSuccess ? "Success" : <>{ uploading ? <span className="spinner-border spinner-border-sm" role="status"> </span>:"Upload"}</> }
+                            
                             </button>
                         </div>
                     </div>
@@ -476,11 +402,6 @@ const UploadFile = (props) => {
                 :
                 <></>
                 }
-                
-                {extraParameters[0] !== undefined ?
-                    html3
-                :<></>}
-                
                 
 
                 {show.showingPageList.value.length === 0 ?

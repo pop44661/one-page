@@ -900,7 +900,7 @@ const Reference = () => {
             sdprocess:{
                 txt2img:new Content(
                     'This api is responsible for txt2img generation',
-                    '/api/v2/process/txt2img',
+                    '/api/v2/sd/txt2img',
                     'POST',
                     {
                         token:new Newtype1(
@@ -968,7 +968,7 @@ const Reference = () => {
                 ),
                 listsdmodel:new Content(
                     'This api is responsible for listing the sd model',
-                    '/api/v2/model/listsdmodel',
+                    '/api/v2/sd/listsdmodel',
                     'POST',
                     {
                         token:new Newtype1(
@@ -994,7 +994,7 @@ const Reference = () => {
                 ),
                 modifysdmodel:new Content(
                     'This api is responsible for modifying the sd model',
-                    '/api/v2/model/modifysdmodel',
+                    '/api/v2/sd/modifysdmodel',
                     'POST',
                     {
                         token:new Newtype1(
