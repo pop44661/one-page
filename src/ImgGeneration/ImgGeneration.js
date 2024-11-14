@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Modal, Button  } from "react-bootstrap";
 import axios from 'axios';
 
 import InstAI_icon from '../Image/instai_icon.png';
@@ -9,6 +9,15 @@ const ImgGeneration = () => {
   const [isGenerate, setGenerate] = useState(false);
   const [status, setStatus] = useState('Default');
   const [images, setImages] = useState([]);
+  // Modal 狀態
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  // const [modalCallback, setModalCallback] = useState('');
+
+  const showModalWithMessage = (message) => {
+      setModalMessage(message);
+      setShowModal(true);
+  };
 
   const [formData, setformData] = useState(
     {
@@ -53,6 +62,10 @@ const ImgGeneration = () => {
     setImages([]);
     e.preventDefault();
     const data = formData;
+    if(data.prompt === ""){
+      showModalWithMessage("prompt cannot be empty!");
+      return;
+    }
     console.log(data)
     try {
         setGenerate(true)
@@ -62,13 +75,16 @@ const ImgGeneration = () => {
         if(response.data.err===false){
             setImages(response.data.images);
             setStatus('Done')
+            showModalWithMessage("image generating successful!");
         }
         else{
             setStatus('Error')
+            showModalWithMessage("image generating failed!");
         }
     } catch (error) {
         console.error("Error generating images:", error)
         setStatus('Error')
+        showModalWithMessage("image generating Error!");
     }
     
     setGenerate(false)
@@ -164,6 +180,7 @@ const ImgGeneration = () => {
                     <div key={index} style={{ width: 'calc(50% - 10px)', marginBottom: '10px'}}>
                       <img
                         src={`data:image/png;base64,${img}`}
+                        loading="lazy"
                         alt={`Generated ${index}`}
                         className={styles["img"]}
                         style={{ width: '100%', height: '100%', borderRadius: '8px', cursor: "pointer" }}
@@ -180,7 +197,16 @@ const ImgGeneration = () => {
           </div>
         </div>
       </div>
-  
+      {/* Modal 顯示訊息 */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+          <Modal.Header closeButton>
+              <Modal.Title>Notification</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{modalMessage}</Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
+          </Modal.Footer>
+      </Modal>   
     </div>
   )
 
