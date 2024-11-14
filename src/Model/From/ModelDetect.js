@@ -65,7 +65,7 @@ const ModelDetect = () => {
         // 動態構建請求資料
         let data = {
             "cluster_arn": "arn:aws:ecs:us-east-1:429951672491:cluster/yolov8_api",
-            "task_definition_arn": "arn:aws:ecs:us-east-1:429951672491:task-definition/yolov8_detect:15",
+            "task_definition_arn": "arn:aws:ecs:us-east-1:429951672491:task-definition/yolov8_detect:16",
             "task_type": "yolo8_detect",
             "model_name":modelname,
             "model_folder_name": `yolo8_detect/${modelname}/`
@@ -93,8 +93,11 @@ const ModelDetect = () => {
             }
             else{
               setfilestatus(true)
-              showModalWithMessage("Testing failed. Please check your inputs.");
-              showModalWithMessage("deploy model detect task failed.");
+              if(JSON.parse(response.data).err_msg === "Model folder name already exists! please select another model_name."){
+                showModalWithMessage("Model folder name already exists! please select another model_name.");
+              }else{
+                showModalWithMessage("deploy model detect task failed.");
+              }
             }
           })
           .catch(error => {
@@ -114,7 +117,7 @@ const ModelDetect = () => {
     const download = () => {
         setdownloading(true)
         var data={
-            "download_path":"yolo8_detect/",
+            "download_path":`yolo8_detect/${modelname}/`,
             "task_type":"yolo8_detect"
         }
         
@@ -134,17 +137,21 @@ const ModelDetect = () => {
                 link.href = JSON.parse(response.data).download_url;
                 link.download = 'yolo8_detect';
                 link.click();
+                showModalWithMessage("Download successful!");
+            } else {
+              showModalWithMessage("Download failed.");
             }
           })
           .catch(error => {
             setdownloading(false)
             if (error.response) {
-              console.log("Server responded with an error:", error.response);
+              console.log("Server responded with an error:", error.response.data);
             } else if (error.request) {
               console.log("No response received from server. Network error:", error.request);
             } else {
               console.log("Error in request setup:", error.message);
             }
+            showModalWithMessage("Download error. Please try again.");
           });
     }
 

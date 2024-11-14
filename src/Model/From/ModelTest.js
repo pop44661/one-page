@@ -63,7 +63,8 @@ const ModelTest = () => {
             "cluster_arn" : "arn:aws:ecs:us-east-1:429951672491:cluster/yolov8_api",
             "task_definition_arn" : "arn:aws:ecs:us-east-1:429951672491:task-definition/yolov8_test:1",
             "task_type":"yolo8_test",
-            "model_name":modelname
+            "model_name":modelname,
+            "model_folder_name": `yolo8_test/${modelname}/`
         }
 
         // 僅在參數不為空時加入資料
@@ -89,7 +90,15 @@ const ModelTest = () => {
             else{
                 setfilestatus1(true)
                 setfilestatus2(true)
-                showModalWithMessage("deploy model test task failed.");
+                console.log(response.data);
+                if(JSON.parse(response.data).err_msg === "Model folder name already exists! please select another model_name."){
+                  showModalWithMessage("Model folder name already exists! please select another model_name.");
+                } else if(JSON.parse(response.data).err_msg === "Model folder name doesn't exist! Please select the correct model_name."){
+                  showModalWithMessage("Model folder name from yolo8 train doesn't exist! Please select the correct model_name.");
+                } else{
+                  showModalWithMessage("deploy model test task failed.");
+                }
+                
             }
           })
           .catch(error => {
@@ -129,6 +138,9 @@ const ModelTest = () => {
                 link.href = JSON.parse(response.data).download_url;
                 link.download = 'yolo8_test';
                 link.click();
+                showModalWithMessage("Download successful!");
+            } else {
+              showModalWithMessage("Download failed.");
             }
           })
           .catch(error => {
@@ -140,6 +152,7 @@ const ModelTest = () => {
             } else {
               console.log("Error in request setup:", error.message);
             }
+            showModalWithMessage("Download error. Please try again.");
           });
     }
 
@@ -162,12 +175,12 @@ const ModelTest = () => {
                       <h5 className="form-label mt-3">#label</h5>
                     <UploadFile
                         uploadfile="label"
-                        tasktype="yolo8_train"
+                        tasktype="yolo8_test"
                         url={process.env.REACT_APP_UPLOAD_FILE}
                         setfilestatus={setfilestatus2}
                         modelstatus={setteststatus}
                     />
-                        <h5 className="form-label mt-3">#input(必填)</h5>
+                        <h5 className="form-label mt-3">#input(必填 注意:model_name必須為yolo8_train已存在之model_name，否則會返回錯誤!)</h5>
                     <div class="input-group  mt-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">model_name</span>
                         <input
