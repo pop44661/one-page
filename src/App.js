@@ -151,6 +151,11 @@ function AppDev() {
         <Route path="/reference/:ref1/:ref2" element={<Reference />}></Route>
         <Route path="/reference/:ref1/:ref2/:ref3" element={<Reference />}></Route>
         <Route path="/reference/:ref1/:ref2/:ref3/:ref4" element={<Reference />}></Route>
+        <Route path="/imggeneration" element={<ImgGeneration />}></Route>
+        <Route path="/Model" element={<ModelPage />}></Route>
+        <Route path="/model/modeldetect" element={<ModelDetect />}></Route>
+        <Route path="/model/modeltrain" element={<ModelTrain />}></Route>
+        <Route path="/model/modeltest" element={<ModelTest />}></Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       }
