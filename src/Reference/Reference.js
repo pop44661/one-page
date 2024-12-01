@@ -32,13 +32,14 @@ class Newtype1 {
     example = '';
     key = '';
     type = '';
-    description=''
-  
-    constructor(example,key, type,description) {
+    description='';
+    status=false;
+    constructor(example,key, type,description,status = false) {
       this.example = example;
       this.key = key;
       this.type = type;
       this.description = description;
+      this.status=status;
     }
 }
   
@@ -159,7 +160,7 @@ const Reference = () => {
                             [
                                 new Pagelist('deletemodel',[],false,'link'),
                                 new Pagelist('downloadmodel',[],false,'link'),
-                                new Pagelist('getmodel',[],false,'link'),
+                                new Pagelist('getmodelinfo',[],false,'link'),
                                 new Pagelist('listmodel',[],false,'link'),
                                 new Pagelist('uploadmodel',[],false,'link')
                             ],
@@ -187,6 +188,19 @@ const Reference = () => {
                             ],
                             false,
                             'scroll'
+                        ),
+                        new Pagelist(
+                            'ecstask',
+                            [
+                                new Pagelist('deployecstask_detect',[],false,'link'),
+                                new Pagelist('deployecstask_train',[],false,'link'),
+                                new Pagelist('deployecstask_test',[],false,'link'),
+                                new Pagelist('uploadfile',[],false,'link'),
+                                new Pagelist('downloadfile',[],false,'link'),
+                                new Pagelist('txt2imgdemo',[],false,'link')
+                            ],
+                            false,
+                            'scroll'
                         )
                     ],
                     true,
@@ -199,7 +213,8 @@ const Reference = () => {
         new Pagelist(
             'Client Libraries',
             [
-                new Pagelist('overview',[],false,'link')
+                new Pagelist('overview',[],false,'link'),
+                new Pagelist('tutorial',[],false,'link')  
             ],
             false,
             'scroll'
@@ -819,7 +834,7 @@ const Reference = () => {
                         model:new Newtype1('file','model','file','actual model file')
                     }
                 ),
-                getmodel:new Content(
+                getmodelinfo:new Content(
                     'This api is responsible for getting the model information',
                     '/api/v2/model/get',
                     'POST',
@@ -1162,16 +1177,166 @@ const Reference = () => {
                             'TerminatingInstances','array json','Terminating Instances')
                     }
                 )
+            },
+            ecstask:{
+                deployecstask_detect:new Content(
+                    'This api is responsible for deploying ecs task',
+                    '/api/v2/ecs/deploy_ecs_task',
+                    'POST',
+                    {
+                        cluster_arn:new Newtype1(
+                            'arn:aws:ecs:us-east-1:429951672491:cluster/yolov8_api','cluster_arn','string','cluster arn'
+                        ),
+                        task_definition_arn:new Newtype1(
+                            'arn:aws:ecs:us-east-1:429951672491:task-definition/yolov8_detect:15','task_definition_arn','string','task definition arn'
+                        ),
+                        task_type:new Newtype1(
+                            'yolo8_detect','task_type','string','deploy task type'
+                        ),
+                    },
+                    {
+                        err:new Newtype1('false','err','string','1: error, 0: success'),
+                        task_arn:new Newtype1('arn:aws:ecs:us-east-1:429951672491:task/yolov8_api/8161c4675eaa4493ab37b65b43ac8a01','task_arn','string','task arn')
+                    }
+                ),
+                deployecstask_train:new Content(
+                    'This api is responsible for deploying ecs task',
+                    '/api/v2/ecs/deploy_ecs_task',
+                    'POST',
+                    {
+                        cluster_arn:new Newtype1(
+                            'arn:aws:ecs:us-east-1:429951672491:cluster/yolov8_api','cluster_arn','string','cluster arn'
+                        ),
+                        task_definition_arn:new Newtype1(
+                            'arn:aws:ecs:us-east-1:429951672491:task-definition/yolov8_test:1','task_definition_arn','string','task definition arn'
+                        ),
+                        task_type:new Newtype1(
+                            'yolo8_train','task_type','string','deploy task type'
+                        ),
+                        model_name:new Newtype1(
+                            'trainmodelname','model_name','string','yolo8_train’s model  folder name(Cannot be duplicated)'
+                        ),
+                        model_type:new Newtype1(
+                            'yolov8','model_type','string','model type'
+                        ),
+                        model_folder_name:new Newtype1(
+                            'yolo8_train/trainmodelname/','model_folder_name','string','yolo8_train’s model  path'
+                        )
+                    },
+                    {
+                        err:new Newtype1('false','err','string','1: error, 0: success'),
+                        err_msg:new Newtype1('Model name already exists! please select another model_name.','err_msg','string','Error message, only used when err = 1'),
+                        task_arn:new Newtype1('arn:aws:ecs:us-east-1:429951672491:task/yolov8_api/8161c4675eaa4493ab37b65b43ac8a01','task_arn','string','task arn')
+                    }
+                ),
+                deployecstask_test:new Content(
+                    'This api is responsible for deploying ecs task',
+                    '/api/v2/ecs/deploy_ecs_task',
+                    'POST',
+                    {
+                        cluster_arn:new Newtype1(
+                            'arn:aws:ecs:us-east-1:429951672491:cluster/yolov8_api','cluster_arn','string','cluster arn'
+                        ),
+                        task_definition_arn:new Newtype1(
+                            'arn:aws:ecs:us-east-1:429951672491:task-definition/yolov8_test:1','task_definition_arn','string','task definition arn'
+                        ),
+                        task_type:new Newtype1(
+                            'yolo8_test','task_type','string','deploy task type'
+                        ),
+                        model_name:new Newtype1(
+                            'trainmodelname','model_name','string','yolo8_test’s model  folder name'
+                        )
+                    },
+                    {
+                        err:new Newtype1('false','err','string','1: error, 0: success'),
+                        task_arn:new Newtype1('arn:aws:ecs:us-east-1:429951672491:task/yolov8_api/8161c4675eaa4493ab37b65b43ac8a01','task_arn','string','task arn')
+                    }
+                ),
+                uploadfile:new Content(
+                    'This api is responsible for uploading image or label',
+                    '/api/v2/ecs/upload_file',
+                    'POST',
+                    { 
+                        task_type:new Newtype1('yolo8_train','task_type','string','task type(yolo8_train or yolo8_detect or yolo8_test)'),
+                        upload_type:new Newtype1('label','upload_type','string','upload type(image or label)'),
+                        file:new Newtype1('files','file','file','image or label')
+                    },
+                    {
+                        err:new Newtype1('false','err','string','1: error, 0: success'),
+                        err_msg:new Newtype1('file uploaded successfully','err_msg','string','Error message, only used when err = 1'),
+                        uploaded_files:new Newtype1([
+                            "uploadeimage_label1.txt",
+                            "uploadeimage_label2.txt"
+                        ]
+                        ,'uploaded_files','array string','uploaded files list'
+                    )
+                    }
+                ),
+                downloadfile:new Content(
+                    'This API is responsible for downloading files from S3 and compressing them',
+                    '/api/v2/ecs/download_file',
+                    'POST',
+                    {
+                        download_path:new Newtype1('yolov8_train/trainmodelname/','download_path','string','Path to download from S3'),
+                        task_type:new Newtype1('yolo8_train','task_type','string','task type(yolo8_train or yolo8_detect or yolo8_test)')
+                    },
+                    {
+                        dwonload_url:new Newtype1(
+                            "https://instaiweb-bucket.s3.amazonaws.com/yolo8_train.zip?AWSAccessKeyId=AKIAWIGY54CV2OGXOGOK&Signature=dHzNtGoqGMNRMfMHe%2B%2B9%2Be7nYJc%3D&Expires=1732605342",
+                            'dwonload_url','string','dwonload url'
+                        ),
+                        err:new Newtype1('false','err','string','1: error, 0: success'),
+                        err_msg:new Newtype1('file downloaded successfully','err_msg','string','Error message, only used when err = 1')
+                    }
+                ),
+                txt2imgdemo:new Content(
+                    'This API is responsible for generating images from text descriptions',
+                    '/api/v2/sd/txt2img_demo',
+                    'POST',
+                    {
+                        enable_hr:new Newtype1("false","enable_hr","string","",true),
+                        denoising_strength:new Newtype1("0","denoising_strength","int","",true),
+                        hr_scale:new Newtype1("2","hr_scale","int","",true),
+                        hr_upscaler:new Newtype1("Latent","hr_upscaler","string","",true),
+                        hr_second_pass_steps:new Newtype1("0","hr_second_pass_steps","int","",true),
+                        hr_resize_x:new Newtype1("0","hr_resize_x","int","",true),
+                        hr_resize_y:new Newtype1("0","hr_resize_y","int","",true),
+                        prompt:new Newtype1("A cat","prompt","string",""),
+                        styles:new Newtype1("[]","styles","array","",true),
+                        seed:new Newtype1("-1","seed","int","",true),
+                        batch_size:new Newtype1("2","batch_size","int",""),
+                        n_iter:new Newtype1("1","n_iter","int","",true),
+                        steps:new Newtype1("20","steps","int","",true),
+                        cfg_scale:new Newtype1("7","cfg_scale","int","",true),
+                        width:new Newtype1("512","width","int",""),
+                        height:new Newtype1("512","height","int",""),
+                        restore_faces:new Newtype1("false","restore_faces","string","",true),
+                        tiling:new Newtype1("false","tiling","string","",true),
+                        negative_prompt:new Newtype1("","negative_prompt","string",""),
+                        eta:new Newtype1("0","eta","int","",true),
+                        override_settings:new Newtype1({ 
+                            "sd_model_checkpoint": "animagineXLV31_v31.safetensors [e3c47aedb0]" 
+                          }
+                          ,"override_settings","json","",true),
+                        script_args:new Newtype1("[]","script_args","array","",true),
+                        sampler_index:new Newtype1("Euler a","sampler_index","string","",true),
+                        alwayson_scripts:new Newtype1({},"alwayson_scripts","json","",true)
+                    },
+                    {
+                        err:new Newtype1('false','err','string','1: error, 0: success'),
+                        err_msg:new Newtype1('','err_msg','string','Error message, only used when err = 1'),
+                        images:new Newtype1('Generate the Base64 string of an image','images','string','image base64')
+                    }
+                )
             }
         }
     }
+    const Params = useParams();
 
-    const tag = {
-        rest:[['Description'],['HTTP request'],['Request body'],['Key','Value_type','Value'],['Response'],['Key','Value_type','Value']],
-        client:[[''],['Install the client library'],['Set up authentication'],['Use the client library'],['Additional resources']]
-    };
-    const [spy,setspy] = useState({
-        rest:[
+    const [tag,settag] = useState([['Description'],['HTTP request'],['Request body'],['Key','Value_type','Value'],['Response'],['Key','Value_type','Value']])
+
+    const [spy,setspy] = useState(
+        [
             {
                 name:'Description',
                 statue:false
@@ -1187,27 +1352,10 @@ const Reference = () => {
             {
                 name:'Response',
                 statue:false
-            }],
-        client:[
-            {
-                name:'Install the client library',
-                statue:false
-            },
-            {
-                name:'Set up authentication',
-                statue:false
-            },
-            {
-                name:'Use the client library',
-                statue:false
-            },
-            {
-                name:'Additional resources',
-                statue:false
             }]
-        });
+        );
 
-    const Params = useParams();
+    
     const [claim,setclaim]=useState('')
     const [inputFrom,setinputFrom]=useState([])
     const [overviewbtn,setoverviewbtn]=useState({
@@ -1217,27 +1365,26 @@ const Reference = () => {
     const [responsemsg,setresponsemsg]=useState({})
 
     const onScroll = () => {
-        let w_y=window.pageYOffset
-        let s={...spy}
-        if(document.getElementById(s[Params.ref1][0].name)!==null){
-            
-            let c;
-            for(let i=0;i<s[Params.ref1].length;i++){
-                let y =document.getElementById(s[Params.ref1][i].name).offsetTop
-                if(w_y >y){
-                    c=i
-                }
+        
+        
+        setspy((currentSpy) => {
+            const updatedSpy = [...currentSpy];
+            const w_y = window.pageYOffset;
+    
+            if (document.getElementById(updatedSpy[0]?.name)) {
+                let c = -1;
+                updatedSpy.forEach((item, index) => {
+                    const y = document.getElementById(item.name).offsetTop;
+                    if (w_y > y) c = index;
+                });
+    
+                updatedSpy.forEach((item, index) => {
+                    item.statue = index === c;
+                });
             }
-            for(let j=0;j<s[Params.ref1].length;j++){
-                if(c===j){
-                    s[Params.ref1][j].statue=true
-                }
-                else{
-                    s[Params.ref1][j].statue=false
-                }
-            }
-            setspy(s)
-        }
+    
+            return updatedSpy;
+        });
         
     }
 
@@ -1258,23 +1405,52 @@ const Reference = () => {
             let result = [];
             for (const [key, value] of Object.entries(requestData)) {
                 let v = { ...value };  
-                if (v.type === 'file') {
-                    v.example = [new File([""], '')];
-                } else if (v.type === 'json') {
-                    v.example = { example: 'example' };
-                } else {
-                    v.example = '';
+                if(!v.status){
+                    if (v.type === 'file') {
+                        v.example = [new File([""], '')];
+                    } else if (v.type === 'json') {
+                        v.example = { example: 'example' };
+                    } else {
+                        v.example = '';
+                    }
                 }
+
                 result.push(v);
             }
             return result;
         };
-
-        if (Params.ref2 !== undefined && Params.ref3 !== undefined && Params.ref4 !== undefined) {
-            const requestData = apicontent[Params.ref2][Params.ref3][Params.ref4].request;
-            const processedData = processRequestData(requestData);
-            setinputFrom(processedData);
+        if(Params.ref1==='rest'){
+            settag([['Description'],['HTTP request'],['Request body'],['Key','Value_type','Value'],['Response'],['Key','Value_type','Value']])
+            setspy([
+                {name:'Description',statue:false},
+                {name:'HTTP request',statue:false},
+                {name:'Request body',statue:false},
+                {name:'Response',statue:false}
+            ])
+            if (Params.ref2 !== undefined && Params.ref3 !== undefined && Params.ref4 !== undefined) {
+                const requestData = apicontent[Params.ref2][Params.ref3][Params.ref4].request;
+                const processedData = processRequestData(requestData);
+                setinputFrom(processedData);
+            }
         }
+        else if(Params.ref1==='client'){
+            if(Params.ref2==='overview'){
+                settag([[''],['Install the client library'],['Set up authentication'],['Use the client library'],['Additional resources']])
+                setspy([
+                    {name:'Install the client library',statue:false},
+                    {name:'Set up authentication',statue:false},
+                    {name:'Use the client library',statue:false},
+                    {name:'Additional resources',statue:false}
+                ])
+            }
+            else if(Params.ref2==='tutorial'){
+                settag([['Use the Instai website']])
+                setspy([
+                    {name:'Use the Instai website',statue:false}
+                ])
+            }
+        }
+        
 
         window.addEventListener('scroll',onScroll);
         
@@ -1472,7 +1648,7 @@ const Reference = () => {
     }
 
     const handletbody = (value) =>{
-        let number = tag[Params.ref1].indexOf(value)
+        let number = tag.indexOf(value)
         let h=<></>
         if(Params.ref2!==undefined&&Params.ref3!==undefined&&Params.ref4!==undefined){
             switch (number){
@@ -1505,7 +1681,7 @@ const Reference = () => {
     const handlespyid = (value) =>{
         let h=<></>;
         if(Params.ref4!==undefined){
-            for(const element of spy[Params.ref1]){
+            for(const element of spy){
                 if(element === value){
                     h=<div style={{'font-weight':'bold'}}><div className='pt-5 pb-4'></div><div>{value}</div></div>
                     return h
@@ -1516,7 +1692,7 @@ const Reference = () => {
             }
         }
         else if(Params.ref1!==undefined){
-            for(const element of spy[Params.ref1]){
+            for(const element of spy){
                 if(element === value){
                     h=<div className='mt-5' style={{'font-weight':'bold'}}><div className='pt-5 pb-4'></div><div>{value}</div></div>
                     return h
@@ -1694,7 +1870,32 @@ const Reference = () => {
         return h
     }
 
-    let html2 =tag[Params.ref1].map((list,index) => {
+    const handletutorial = (value) =>{
+        let h =<></>
+        if(value===0){
+            h=<div  className='mt-3'>
+                <p>How to use the Instai website, the process is as follows:</p>
+                <ol>
+                    <li><p>{'First, on the "imggeneration" page, create the image you want using text. (Note: If you want to use your own image, you can skip step 1.)'}</p></li>
+                    <li>
+                        <p>{'Next, click on the "model" page and select "Yolo V8 Detecting" to enter another page for detection. Upload the image you created in step 1 and enter the model name (which cannot be repeated) as the file name. The "parameter" field can be left blank. '}</p>
+                        <p>{'After clicking the "Detect" button, wait until the "download" option appears at the bottom. Once it does, you can download the compressed file, which contains the .txt file needed for the next step. (Note: If you already have a .txt file for your image, you can skip step 2.)'}</p>
+                    </li>
+                    <li>
+                        <p>{'Then, click on the "model" page and select "Yolo V8 Training" to enter another page for training. Upload the image you created in step 1 and the .txt file from the compressed file in step 2 to the "label" field. Enter the model name (which cannot be repeated) as the file name. The "parameter" field can be left blank.'}</p>
+                        <p>{'After clicking the "Train" button, wait until the "download" option appears at the bottom. Once it does, you can download the compressed file, which contains the trained model.'}</p>
+                    </li>
+                    <li>
+                        <p>{'Next, click on the "model" page and select "Yolo V8 Testing" to enter another page for testing. If you do not have your own test image and label, please perform steps 1 and 2 again to obtain them. Upload the new test image and label, and enter the model name as the file name (use the model name you entered in step 3). The "parameter" field can be left blank.'}</p>
+                        <p>{'After clicking the "Test" button, wait until the "download" option appears at the bottom. Once it does, you can download the compressed file, which contains the result of the model testing.'}</p>
+                    </li>
+                </ol>
+            </div>
+        }
+        return h
+    }
+
+    let html2 =tag.map((list,index) => {
         let h=<></>
         if(Params.ref4!==undefined||Params.ref3!==undefined){
             h=<div id={`${list[0]}`} className="pt-3">
@@ -1713,7 +1914,8 @@ const Reference = () => {
         else  if(Params.ref2!==undefined){
             h=<div id={`${list[0]}`} className="pt-4">
             {handlespyid(list[0])}
-            {handleclientoverview(index)}
+            
+            {Params.ref2==='overview'?handleclientoverview(index):handletutorial(index)}
             
         </div>
         }
@@ -1725,7 +1927,7 @@ const Reference = () => {
         document.getElementById(name).scrollIntoView({'behavior':'instant'});
     }
 
-    let html3=spy[Params.ref1].map((list) => 
+    let html3=spy.map((list) => 
         <Link
             style={{'font-size': '14px'}}
             onClick={(e) => handlescrollspy(e)}
@@ -1779,54 +1981,54 @@ const Reference = () => {
 
     const handleinputtype = (value) =>{
         let h=<></>
-        
-        if(value.type==='file'){
-            h=<div className="mb-3">
-                <label className="form-label">{value.key}</label>
-                <input
-                name={value.key}
-                type={value.type}
-                className="form-control"
-                multiple="true"
-                accept={accept}
-                onChange={(e) => onSelected(e)}
-                />
-            </div>
+        if(!value.status){
+            if(value.type==='file'){
+                h=<div className="mb-3">
+                    <label className="form-label">{value.key}</label>
+                    <input
+                    name={value.key}
+                    type={value.type}
+                    className="form-control"
+                    multiple="true"
+                    accept={accept}
+                    onChange={(e) => onSelected(e)}
+                    />
+                </div>
+            }
+            else if(value.type==='json'){
+                h=<div className="mb-3">
+                    <label className="form-label">{value.key}</label>
+                    <JsonEditor value={value.example} KEY={value.key} handlejsonvalue={handlejsonvalue} />
+                </div>
+            }
+            else if(value.key==='token'||value.key==='access_token'){
+                h=<div className="mb-3">
+                    <label className="form-label">{value.key}</label>
+                    <textarea
+                    name={value.key}
+                    type={value.type}
+                    className="form-control"
+                    placeholder={value.key}
+                    value={value.example}
+                    style={{'field-sizing': 'content'}}
+                    onChange={(e) => changeInputBox(e)}
+                    />
+                </div>
+            }
+            else{
+                h=<div className="mb-3">
+                    <label className="form-label">{value.key}</label>
+                    <input
+                    name={value.key}
+                    type={value.type}
+                    className="form-control"
+                    placeholder={value.key}
+                    value={value.example}
+                    onChange={(e) => changeInputBox(e)}
+                    />
+                </div>
+            }
         }
-        else if(value.type==='json'){
-            h=<div className="mb-3">
-                <label className="form-label">{value.key}</label>
-                <JsonEditor value={value.example} KEY={value.key} handlejsonvalue={handlejsonvalue} />
-            </div>
-        }
-        else if(value.key==='token'||value.key==='access_token'){
-            h=<div className="mb-3">
-                <label className="form-label">{value.key}</label>
-                <textarea
-                name={value.key}
-                type={value.type}
-                className="form-control"
-                placeholder={value.key}
-                value={value.example}
-                style={{'field-sizing': 'content'}}
-                onChange={(e) => changeInputBox(e)}
-                />
-            </div>
-        }
-        else{
-            h=<div className="mb-3">
-                <label className="form-label">{value.key}</label>
-                <input
-                name={value.key}
-                type={value.type}
-                className="form-control"
-                placeholder={value.key}
-                value={value.example}
-                onChange={(e) => changeInputBox(e)}
-                />
-            </div>
-        }
-
         
         return h
     }
@@ -1896,7 +2098,7 @@ const Reference = () => {
         }
 
         setisResponse(true)
-
+        console.log(data)
         axios.post(domain[Params.ref2] + apicontent[Params.ref2][Params.ref3][Params.ref4].api,data,header)
         .then(
             (response) => {
